@@ -17,19 +17,20 @@ range = mmax-mmin
 mvar = apply(mat,1,var)
 ## select the top 10% variance. 
 mat_topv = mat[which(mvar> quantile(mvar,0.9)),]
-topv_diff = mat_topv[,ncol(mat_topv)]-mat_topv[,1]
 
-
-mat_order = mat_topv[order(topv_diff),]
-mat_order = cbind(1:nrow(mat_order),mat_order)
-colnames(mat_order)[1] = "name"
-mat_order$name = factor(mat_order$name,levels=mat_order$name)
-melted = melt(cbind(rownames(mat_order),mat_order), )
-ggplot(melted) + geom_tile(aes(x=variable,y=name,fill=value)) + scale_fill_gradient2(low="blue",high="red")
+mat_out = a[which(mvar> quantile(mvar,0.9)),]
+#name = paste(mat_out$V1,mat_out$V2,mat_out$V3)
+#mat_out = cbind(name,mat_topv)
+write.table(mat_out,"clusters/matrix_for_clustering.bed",row.names=F,col.names=F,quote=F,sep='\t')
 
 colnames(mat_topv) = c("D00","D02","D05","D07","D15","D80")
-test = mat_topv[1:100,]
-heatmap.2(as.matrix(test),cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F,col=colorRampPalette(c("blue","red")))
+library(gplots)
+#test = mat_topv[1:100,]
+#heatmap.2(as.matrix(test),cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F,col=colorRampPalette(c("blue","red")))
+hmap = heatmap.2(as.matrix(mat_topv),cexRow=1,cexCol=1,Colv=F,notecol='black',margins=c(5,5),tracecol=F,col=colorRampPalette(c("blue","red")),
+#distfun = function(x) as.dist((1-cor(t(x)))/2),
+hclust=function(x) hclust(x,method="average"))
+out = t(hmap$carpet)
 
 pdf("clusters/cluster_heatmap.pdf")
 heatmap.2(as.matrix(mat_topv),cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F,col=colorRampPalette(c("blue","red")),
