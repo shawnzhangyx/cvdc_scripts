@@ -15,7 +15,8 @@ fit.list[[length(fit.list)+1]] = data.frame(fread(file))
 fit = do.call(rbind, fit.list)
 ## read in the HICCUPS data. 
 hic = data.frame(fread(paste0("hiccup_loops/",name,".loop/enriched_pixels_10000")))
-
+hic$width = hic$y1-hic$x1
+hic=hic[which(hic$width<2e6),] 
 fit$name = paste(fit$chr1, fit$fragmentMid1,fit$fragmentMid2)
 hic$name = paste(hic$chr1, hic$x1,hic$y1)
 row = c(nrow(hic),nrow(fit),length(which(hic$name %in% fit$name))/nrow(hic) )
