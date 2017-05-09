@@ -7,7 +7,7 @@ if (length(commandArgs(trailing=T))!=1){
 DISTANCE_CUT_OFF = as.numeric(commandArgs(trailing=T)[1])
 
 
-file = data.frame(fread("~/refs/hg19/gencode.v19.annotation.gtf",skip=5))
+file = data.frame(fread("~/annotations/hg19/gencode.v19.annotation.gtf",skip=5))
 #conv=file[which(file$V3=="gene"),]
 conv=file[which(file$V3=="transcript"),]
 
@@ -33,8 +33,8 @@ temp
 #conv$gene_id = sapply(conv$V9,get_gene_id)
 #conv$gene_id = gsub('\\..*','',conv$gene_id)
 conv$symbol = sapply(conv$V9,get_gene_symbol)
-#conv$gene_type = sapply(conv$V9,get_gene_type)
-
+conv$gene_type = sapply(conv$V9,get_gene_type)
+#conv = conv[which(conv$gene_type ==
 conv = conv[,c(1,4,5,10,6,7)]
 #conv = conv[,-c(2,3)]
 colnames(conv) = c("chr","start","end","symbol","value","strand")

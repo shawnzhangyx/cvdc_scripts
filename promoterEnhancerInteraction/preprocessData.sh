@@ -16,3 +16,8 @@ enhancerDistal=/mnt/silencer2/home/yanxiazh/projects/cardiac_dev/data/atac/peaks
 # intersect TSS-loops with ATAC-seq distal peaks. 
 awk -v OFS='\t' '{print $4,$5,$6,$1,$2,$3}' $out/loop.inter.tss.txt | intersectBed -a stdin -b $enhancerDistal -u > $out/loop.inter.enhancerDistal.tss.txt 
 awk -v OFS='\t' '{print $4,$5,$6,$1,$2,$3}' $out/loop.inter.tss.txt | intersectBed -a $enhancerDistal -b stdin -wo > $out/enhancerDistal.loop.overlap.txt
+
+# intersect TSS-loops with ATAC-seq distal peaks that overlap with motif. 
+enhancerDistalSNP=/mnt/silencer2/home/yanxiazh/projects/cardiac_dev/data/atac/peaks/atac_distal_peaks.overlap_SNP.bed
+awk -v OFS='\t' '{print $4,$5,$6,$1,$2,$3}' $out/loop.inter.tss.txt | intersectBed -a $enhancerDistalSNP -b stdin -wo > $out/enhancerDistalSNP.loop.overlap.txt
+
