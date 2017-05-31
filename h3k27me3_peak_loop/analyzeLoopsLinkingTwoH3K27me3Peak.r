@@ -35,7 +35,8 @@ k27.1norm = sweep(k27.1m, 1, k27.1m.max, '/')
 k27.2norm = sweep(k27.2m, 1, k27.2m.max, '/')
 
 #hc = hclust(dist(loop.k27.norm),method="average")
-hc = hclust(dist(1-cor(t(k27.1norm))),method="average")
+hc = hclust(as.dist(cor(t(loop.k27.norm))),method="average")
+#hc = hclust(dist(1-cor(t(k27.1norm))),method="average")
 #
 loop.k27.wname[hc$order,][170:180,]
 loop.k27.or = loop.k27.norm[hc$order,]
@@ -48,7 +49,7 @@ loop.max.or = log2(loop.k27.max[hc$order])
 #k27.1or = k27.1norm[order(km$cluster),]
 #k27.2or = k27.2norm[order(km$cluster),]
 
-pdf("loopsAndK27rpkm.hc_by_k27.pdf",height=20,width=8)
+pdf("loopsAndK27rpkm.hc_by_loop.pdf",height=20,width=8)
 require(gplots)
 heatmap.2(as.matrix(loop.k27.or), Colv=FALSE,Rowv=FALSE,
 dendrogram="none",cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F,
