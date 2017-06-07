@@ -19,6 +19,8 @@ marker_code = {
   "Input": "122,122,122"
   }
 
+score_positive = "255,0,0"
+score_negative = "0,0,255"
 
 def writeEachStage(outfile, marker, stage):
   strs = ["",
@@ -34,6 +36,23 @@ def writeEachStage(outfile, marker, stage):
   strs = "\n    ".join(strs) +"\n"
   outfile.write(strs)
   return
+
+def writeEachStageRep(outfile, score, rep, stage):
+  strs = ["",
+  "track " + score + "_" + stage + rep ,
+  "bigDataUrl " + score + "." + stage + rep + ".bw" ,
+  "shortLabel " + score + "_" + stage + rep,
+  "longLabel " + score + "_" + stage + rep,
+  "parent " + score,
+  "graghTypeDefault bar" ,
+  "type bigWig",
+  "color " + score_positive,
+  "altColor " + score_negative,
+  ]
+  strs = "\n    ".join(strs) +"\n"
+  outfile.write(strs)
+  return
+
 
 def makeMultiWigGroup(outfile, marker):
     strs = ["###############",
@@ -56,6 +75,28 @@ def makeMultiWigGroup(outfile, marker):
     return
 
 
+def makeBedGraphGroup(outfile, score):
+    strs = ["###############",
+    "track " + score,
+    "type bigWig",
+    "container multiWig",
+    "shortLabel " + score +" multiWig container",
+    "longLabel " +  score +" multiWig container",
+    "visibility full",
+    "aggregate none",
+    "showSubtrackColorOnUi on",
+    "maxHeightPixels 40:16:4",
+    "autoScale on",
+    "html examplePage",
+    ""]
+    outfile.write("\n".join(strs))
+    for stage in ["D00","D02","D05","D07","D15","D80"]:
+        for rep in [".rep1",".rep2"]:
+            writeEachStageRep(outfile, score, rep, stage)
+    outfile.write("\n")
+    return 
+
+
 if __name__ == "__main__":
 #  if len(sys.argv) != 2:
 #    print("usage: %prog path2trackDb.txt")
@@ -71,5 +112,8 @@ if __name__ == "__main__":
         makeMultiWigGroup(f,"H3K4me3")
         makeMultiWigGroup(f,"rnaseq")
         makeMultiWigGroup(f,"Input")
+        makeBedGraphGroup(f,"DI")
+        makeBedGraphGroup(f,"Insulation")
+        makeBedGraphGroup(f,"PC1")
 
 
