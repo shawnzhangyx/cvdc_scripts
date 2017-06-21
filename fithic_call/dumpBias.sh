@@ -7,6 +7,6 @@ for name in *.hic
   do 
   name=${name/.hic/}
   if [ ! -d ../juicerBias/$name ]; then mkdir ../juicerBias/$name; fi
-  java -Xms512m -Xmx2048m -jar $HOME/software/hic/juicebox/juicebox_tools.7.0.jar dump norm KR $name.hic $chr $chr BP 10000 ../juicerBias/$name/${chr}_10000.txt
+  java -Xms8G -Xmx8G -jar $HOME/software/hic/juicebox/juicebox_tools.7.0.jar dump norm KR $name.hic chr$chr chr$chr BP 10000 ../juicerBias/$name/${chr}_10000.txt
   done
 done

@@ -25,11 +25,11 @@ dir="../../analysis/fithic/results"
 if [ ! -d $dir ]; then mkdir $dir; fi
 bin=10000
 chr=1
-for chr in {1..22..1} X 
-do 
-  (
 for name in $(cat ../../data/hic/meta/names.txt)
   do
+  (
+  for chr in {1..22..1} X 
+  do 
   path=../../analysis/fithic/preprocessed_data/$name
   interaction=$path/${chr}_${bin}.contact.norm.txt.gz
   frag=$path/${chr}_${bin}.frag.norm.txt.gz

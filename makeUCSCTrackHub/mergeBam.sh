@@ -4,8 +4,12 @@ outdir=../../data/trackhub/hg19
 atacdir=../../data/atac/bams/
 for day in 00 02 05 07 15 80
   do
-  samtools merge $atacdir/D${day}_sorted_nodup.30.bam $atacdir/D${day}_1_sorted_nodup.30.bam $atacdir/D${day}_2_sorted_nodup.30.bam -f &
-  samtools index $atacdir/D${day}_sorted_nodup.30.bam &
+#  (
+#  samtools merge $atacdir/D${day}_sorted_nodup.30.bam $atacdir/D${day}_1_sorted_nodup.30.bam $atacdir/D${day}_2_sorted_nodup.30.bam -f 
+#  samtools index $atacdir/D${day}_sorted_nodup.30.bam ) &
+  (
+  samtools merge $atacdir/D${day}_sorted_nodup-chrM.30.bam $atacdir/D${day}_1_sorted_nodup-chrM.30.bam $atacdir/D${day}_2_sorted_nodup-chrM.30.bam -f
+  samtools index $atacdir/D${day}_sorted_nodup-chrM.30.bam ) &
   done
 
 chipdir=../../data/chipseq/bams

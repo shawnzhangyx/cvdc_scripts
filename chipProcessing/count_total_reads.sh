@@ -1,14 +1,14 @@
 base=/mnt/silencer2/home/yanxiazh/projects/cardiac_dev/data/chipseq
 stats=$base/stats
-if [ ! -d $stats ]; then mkdir $stats; fi 
-if [ ! -d $stats/mapped_reads/ ]; then mkdir $stats/mapped_reads; fi
-mark=H3K27me3
+mkdir -p $stats
 cd $base/bams/
-files=$(ls ${mark}*.bam)
-
-for file in $files 
-  do
-  echo $file >> $stats/mapped_reads/${mark}.names 
-  samtools view -c -F 4 $file >> $stats/mapped_reads/${mark}.counts
-  done
+#mark=H3K27me3
+for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3; do
+  files=$(ls ${mark}*.nodup.bam)
+  echo -e "sample\tTotal" > $stats/${mark}.mapped.total.txt 
+  for file in $files; do
+    echo -e "$file\t$(samtools view -c -F 4 $file)" >> $stats/${mark}.mapped.total.txt & 
+    done
+  wait
+done
 

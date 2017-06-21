@@ -1,4 +1,4 @@
-bash dumpBias.sh
+#bash dumpBias.sh
 bash convertJuicerToFitHiC_file.sh
 bash fithic.sh # This step can be run on TSCC. 
 bash filter_fithic_calls.sh

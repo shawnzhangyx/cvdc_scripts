@@ -27,6 +27,7 @@ for chr in {1..22..1} X
   do 
 for name in $(cat ../../data/hic/meta/names.txt)
   do
+  echo $name chr$chr
   (
   dir=../../analysis/fithic/preprocessed_data/$name
   if [ ! -d $dir ]; then mkdir $dir; fi

@@ -4,7 +4,7 @@ atacdir=../../data/atac/bams/
 for day in 00 02 05 07 15 80
   do
  # bamCoverage --bam $atacdir/D${day}_sorted_nodup.30.bam --outFileFormat bigwig --outFileName $outdir/ATAC_D${day}.bw --binSize 25 --numberOfProcessors 4 &
-  bamCoverage --bam $atacdir/D${day}_sorted_nodup.30.bam --outFileFormat bigwig --outFileName $outdir/ATAC_D${day}.rpkm.bw --binSize 25 --numberOfProcessors 1 --normalizeUsingRPKM &
+  bamCoverage --bam $atacdir/D${day}_sorted_nodup-chrM.30.bam --outFileFormat bigwig --outFileName $outdir/ATAC_D${day}.rpkm.bw --binSize 25 --numberOfProcessors 1 --normalizeUsingRPKM &
 
   done
 
