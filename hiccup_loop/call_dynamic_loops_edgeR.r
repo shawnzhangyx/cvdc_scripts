@@ -1,8 +1,8 @@
 setwd("../../analysis/hiccup_loops/")
-o=read.delim("loops_merged.mat.txt")
-colnames(o)[-c(1:3)]= sub(".*(D.*Rep.).*","\\1",colnames(o)[-c(1:3)])
-oe=read.delim("loops_merged.oe.txt")
-colnames(oe)[-c(1:3)]= sub(".*(D.*Rep.).*","\\1",colnames(oe)[-c(1:3)])
+o=read.delim("loops_merged.uniq.10k.mat.txt")
+#colnames(o)[-c(1:3)]= sub(".*(D.*Rep.).*","\\1",colnames(o)[-c(1:3)])
+#oe=read.delim("loops_merged.oe.txt")
+#colnames(oe)[-c(1:3)]= sub(".*(D.*Rep.).*","\\1",colnames(oe)[-c(1:3)])
 meta= read.delim("../../data/hic/meta/hic_meta.txt")
 
 o = o[!duplicated(o),]
@@ -10,7 +10,7 @@ o = o[!duplicated(o),]
 require(edgeR)
 
 counts = o[,-c(1:3)]
-row.names(counts) = paste(o$chr,o$x1,o$x2)
+rownames(counts) = paste(o$chr,o$x1,o$y1)
 group = sub("(D..).*","\\1",colnames(counts))
 design = model.matrix(~0+group)
 lvls = levels(factor(group))

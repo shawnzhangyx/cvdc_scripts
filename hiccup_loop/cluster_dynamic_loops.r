@@ -4,14 +4,6 @@ options(scipen=99)
 all= read.delim("loops_edgeR_test_allStage.txt")
 cpb= read.delim("loops_cpb.txt")
 
-files = list.files(pattern="loops_edgeR_test_D..-D...txt")
-adj.list = list()
-for (file in files){
-  adj.list[[length(adj.list)+1]] = read.delim(file) 
-}
-adj.tab = do.call(cbind, adj.list)[,c(seq(7,40,8),seq(8,40,8))]
-sapply(6:10,function(x){length(which(adj.tab[,x]<0.01))})
-#[1] 1330  291   13   97 4859
 length(which(all$fdr<0.01))
 # 11725
 
