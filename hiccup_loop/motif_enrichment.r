@@ -1,35 +1,46 @@
-setwd("../../analysis/hiccup_loops/clusters/sep_by_cluster/")
+setwd("../../analysis/hiccup_loops/clusters/atac")
 
-beds = list.files(pattern="cluster...bed")
+beds = list.files(pattern="bed")
 # temperary
-beds = beds[-1]
+#beds = beds[-1]
 total = sapply(1:length(beds),function(x){ nrow(read.delim(beds[x],header=F))})
 bed.total = data.frame(beds,total)
 
 
 files = list.files(pattern="motif_peak_count.txt")
 # temporary
-files = files[-1]
+#files = files[-1]
 
 data.list = list()
 for (file in files){
   data = read.delim(file,header=F)
-  data$cluster = sub("(cluster..).*","\\1",file)
+  data$cluster = sub("(.*).motif_peak_count.txt","\\1",file)
   data.list[[length(data.list)+1]] = data
   }
 
 tab = do.call(rbind,data.list)
+colnames(tab) = c("Motif","in_motifs","cluster")
 # calculate the expected motif counts for all clusters.
-tab.all = aggregate(V2~V1,data=tab,sum)
-tab.all$bg = tab.all$V2/sum(total)
+tab.all = aggregate(in_motifs~Motif,data=tab,sum)
+#tab.all$bg = tab.all$V2/sum(total)
 
-tab$num_peaks = bed.total$total[match(tab$cluster, sub("(cluster..).bed","\\1",bed.total$beds))]
+tab$in_peaks = bed.total$total[match(tab$cluster, sub("(.*).bed","\\1",bed.total$beds))]
+tab$out_peaks = sum(total) - tab$in_peaks
+tab$out_motifs = tab.all$in_motifs[match(tab$Motif, tab.all$Motif)] - tab$in_motifs
 
-tab$motif_avg = tab$V2/tab$num_peaks
-tab$motif_bg = tab.all$bg[match(tab$V1,tab.all$V1)]
-tab$motif_FC = tab$motif_avg/tab$motif_bg
+or = pvalue = NULL
+for (i in 1:nrow(tab)){
+  print(i)
+  tmp = tab[i,]
+  test = fisher.test( matrix(c(tmp$in_motifs, tmp$in_peaks-tmp$in_motifs, 
+    tmp$out_motifs, tmp$out_peaks-tmp$out_motifs),nrow=2))
+  or[i] = test$estimate
+  pvalue[i] = test$p.value
+  }
 
-tab = tab[order(-tab$motif_FC),]
+tab$odds.ratio = or
+tab$pvalue = pvalue
 
-#head(tab[order(-tab$motif_FC),])
+tab = tab[order(tab$pvalue),]
+tab = tab[order(-tab$odds.ratio),]
 

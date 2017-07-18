@@ -35,9 +35,9 @@ temp
 conv$symbol = sapply(conv$V9,get_gene_symbol)
 conv$gene_type = sapply(conv$V9,get_gene_type)
 #conv = conv[which(conv$gene_type ==
-conv = conv[,c(1,4,5,10,6,7)]
+conv = conv[,c(1,4,5,10,6,7,11)]
 #conv = conv[,-c(2,3)]
-colnames(conv) = c("chr","start","end","symbol","value","strand")
+colnames(conv) = c("chr","start","end","symbol","value","strand","type")
 #write.table(conv,"gencode.v19.annotation.gene.body.bed",row.names=F,sep='\t',quote=F,col.names=F)
 conv$start = ifelse(conv$strand=="+",conv$start-DISTANCE_CUT_OFF,conv$end-DISTANCE_CUT_OFF)
 conv$end = conv$start+2*DISTANCE_CUT_OFF

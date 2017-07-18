@@ -16,3 +16,21 @@ for mark in H3K27ac H3K27me3 H3K4me3 H3K4me1
   done
 wait; echo "feature counts done"
 
+
+## count the H3K27me3 reads against the 10k tiling array. 
+cd /mnt/silencer2/home/yanxiazh/projects/cardiac_dev/data/chipseq/
+mark=H3K27me3
+  files=$(ls bams/${mark}_*nodup.bam)
+    featureCounts -a /mnt/silencer2/home/yanxiazh/annotations/hg19/hg19_10k_tiling_bin.saf -o counts/tiling10k.${mark}.counts $files -F SAF -T 8
+
+## count the reads against the 2k tiling array.
+cd /mnt/silencer2/home/yanxiazh/projects/cardiac_dev/data/chipseq/
+if [ ! -d counts ]; then mkdir counts; fi
+for mark in H3K27ac H3K27me3 H3K4me3 H3K4me1 
+  do
+  files=$(ls bams/${mark}_*nodup.bam)
+  featureCounts -a ../annotation/hg19.2k.tiling.saf -o counts/tiling.2k.${mark}.counts $files -F SAF -T 8 -O 
+  done
+wait; echo "feature counts done"
+
+

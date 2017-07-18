@@ -35,4 +35,32 @@ done
 intersectBed -b ../../data/annotation/gencode.v19.annotation.transcripts.tss1k.bed -a loop_anchors.uniq.30k.bed -loj > $outdir/anchor.gene_tss.txt
 sort -k1,1 -k2,2n -k7,7 -u $outdir/anchor.gene_tss.txt > $outdir/anchor.gene_tss.unique.txt
 
+### overlap with each stage. 
+chippeak=../../data/chipseq/peaks/
+mark=H3K27me3
+for mark in H3K27me3 H3K27ac H3K4me1 H3K4me3; do
+  echo -e "chr\tstart\tend\tD00\tD02\tD05\tD07\tD15\tD80" \
+  > $outdir/anchor.${mark}.stages.txt
+  cmd="cat loop_anchors.uniq.30k.bed "
+  for file in $( ls $chippeak/${mark}*/pooled/trurep_peaks.filtered.narrowPeak); do
+    cmd+="| intersectBed -a - -b $file -c "
+    done
+  cmd+=">> $outdir/anchor.${mark}.stages.txt"
+  bash -c "$cmd"
+  done
+
+  echo -e "chr\tstart\tend\tD00\tD02\tD05\tD07\tD15\tD80" \
+  > $outdir/anchor.atac.stages.txt
+  cmd="cat loop_anchors.uniq.30k.bed "
+  for file in $( ls ../../data/atac/peaks/*.truepeak.filtered.narrowPeak); do
+    cmd+="| intersectBed -a - -b $file -c "
+    done
+  cmd+=">> $outdir/anchor.atac.stages.txt"
+  bash -c "$cmd"
+
+
+## overlap anchors to compartment AB
+#D15 first
+intersectBed -a loop_anchors.uniq.30k.bed -b ../../analysis/ab_compartments/pc1_data/combined.matrix -wo > overlap_anchors_to_features/anchors.compartments.txt
+
 

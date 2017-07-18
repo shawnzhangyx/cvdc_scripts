@@ -1,4 +1,5 @@
 setwd("../../analysis/hiccup_loops/")
+require(scales)
 stages = c("D00","D02","D05","D07","D15","D80")
 a = read.delim("loops.cpb.logFC.edger.dynamic.txt")
 counts = a[,c(2:13)]
@@ -33,6 +34,15 @@ ggplot(logFC.melt, aes(x=Var2,y=Var1,fill=value)) + geom_tile() +
   values = scales::rescale(c(-1, -0.3, 0, 0.3, 1)))
 ggplot(a,aes(x=factor(max_stage),y=distance)) + geom_boxplot() + 
   scale_y_log10()
+ggplot(a,aes(distance,factor(max_stage))) + 
+  stat_density(aes(fill=..density..), geom="raster",position="identity")+
+  scale_x_continuous(trans=log2_trans(),breaks=c(0,5e4,1e5,5e5,5e6)) + 
+  scale_fill_gradient2(low="white",high=cbbPalette[6])
+
+#  scale_fill_gradient2(mid="white")
+
+#  scale_y_log10()
+
 
 dev.off()
 #  scale_fill_gradient2(high="red",mid="white",low="darkblue")
@@ -68,6 +78,12 @@ ggplot(logFC.melt, aes(x=Var2,y=Var1,fill=value)) + geom_tile() +
 
 ggplot(a,aes(x=factor(max_stage),y=distance)) + geom_boxplot() +
   scale_y_log10()
+
+ggplot(a,aes(distance,factor(max_stage))) +
+  stat_density(aes(fill=..density..), geom="raster",position="identity")+
+  scale_x_continuous(trans=log2_trans(),breaks=c(0,5e4,1e5,5e5,5e6)) +
+  scale_fill_gradient2(low="white",high=cbbPalette[6])
+
 
 dev.off()
 

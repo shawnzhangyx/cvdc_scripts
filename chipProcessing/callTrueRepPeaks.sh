@@ -3,7 +3,7 @@ cd /mnt/silencer2/home/yanxiazh/projects/cardiac_dev/data/chipseq
 #mark=H3K27ac
 #day=00
 ## link files
-for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3 
+for mark in H3K9me3 #H3K27ac H3K27me3 H3K4me1 H3K4me3 
   do 
   for day in 00 02 05 07 15 80
     do 

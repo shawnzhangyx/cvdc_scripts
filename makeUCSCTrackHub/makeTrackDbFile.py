@@ -15,6 +15,7 @@ marker_code = {
   "H3K4me1": "0,255,0",
   "H3K4me3": "0,0,255",
   "H3K27me3": "75,0,130",
+  "H3K9me3": "0,0,0",
   "rnaseq": "0,0,0",
   "Input": "122,122,122"
   }
@@ -108,6 +109,7 @@ if __name__ == "__main__":
         makeMultiWigGroup(f,"ATAC")
         makeMultiWigGroup(f,"H3K27ac")
         makeMultiWigGroup(f,"H3K27me3")
+        makeMultiWigGroup(f,"H3K9me3")
         makeMultiWigGroup(f,"H3K4me1")
         makeMultiWigGroup(f,"H3K4me3")
         makeMultiWigGroup(f,"rnaseq")

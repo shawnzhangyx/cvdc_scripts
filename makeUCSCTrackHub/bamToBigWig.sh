@@ -11,7 +11,8 @@ for day in 00 02 05 07 15 80
 chipdir=../../data/chipseq/bams
 for day in 00 02 05 07 15 80
   do
-  for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3 Input #H3K9me3
+#  for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3 Input H3K9me3
+  for mark in H3K9me3 
     do 
       files=$(ls $chipdir/${mark}_D${day}_*.30.nodup.bam)
       echo $files
