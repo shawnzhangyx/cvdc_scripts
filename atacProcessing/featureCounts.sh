@@ -4,9 +4,9 @@ echo "conversion to SAF done"
 ## count the reads
 if [ ! -d counts ]; then mkdir counts; fi 
 files=$(ls bams/D??_?_sorted_nodup-chrM.30.bam)
-featureCounts -a peaks/atac_peaks.saf -o counts/atac.read.counts $files -F SAF -T 8
-featureCounts -a peaks/atac_peaks.saf -o counts/atac.frag.counts $files -F SAF -T 8 -p 
-
+#featureCounts -a peaks/atac_peaks.saf -o counts/atac.read.counts $files -F SAF -T 8
+#featureCounts -a peaks/atac_peaks.saf -o counts/atac.frag.counts $files -F SAF -T 8 -p 
+featureCounts -a peaks/atac_merged_peaks.summit.2k.saf -o counts/atac.summit.2k.counts $files -F SAF -T 8 
 echo "feature counts done"
 
 ## count the reads in the original file

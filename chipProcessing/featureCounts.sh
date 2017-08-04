@@ -33,4 +33,13 @@ for mark in H3K27ac H3K27me3 H3K4me3 H3K4me1
   done
 wait; echo "feature counts done"
 
+## count the reads against the 2k ATAC-seq array.
+cd /mnt/silencer2/home/yanxiazh/projects/cardiac_dev/data/chipseq/
+if [ ! -d counts ]; then mkdir counts; fi
+for mark in H3K27ac H3K27me3 H3K4me3 H3K4me1
+  do
+  files=$(ls bams/${mark}_*nodup.bam)
+  featureCounts -a ../atac/peaks/atac_merged_peaks.summit.2k.saf -o counts/atac_peaks.2k.${mark}.counts $files -F SAF -T 8 -O
+  done
+wait; echo "feature counts done"
 

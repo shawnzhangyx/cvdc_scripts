@@ -31,6 +31,7 @@ ggplot(com, aes(x=dis_bin,color=dynamic,fill=Class)) +
 
 dev.off()
 
+com = rbind(d,n)
 test = com[,c(29,30,2:13)]
 test$max = apply(test[,c(3:14)],1,max)
 test.sorted = test[order(test$distance,test$max),]
@@ -41,7 +42,10 @@ rownames(mat) = 1:nrow(mat)
 melted = melt(mat)
 
 ggplot() + geom_raster(data=melted,aes(x=Var2, y=Var1, fill=value),interpolate = FALSE) + 
-  scale_fill_gradient2(high="red",low="white") 
+  scale_fill_gradient2(high="red",low="white") +
+  scale_x_continuous(limits=c(0,nrow(test.sorted)),breaks=c(0,5000,10000,15000)) +
+#  labels=test.sorted$distance[c(1,5000,10000,15000)]) +
+  theme( axis.text.x = element_text(angle = 90, hjust = 1))
 #  geom_rug(aes(y=(1:nrow(test.sorted))[which(test.sorted$dynamic==TRUE)]),size=0.1)
 
 
