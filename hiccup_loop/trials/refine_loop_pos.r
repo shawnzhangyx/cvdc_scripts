@@ -41,7 +41,14 @@ write.table(mat.top,"uniq_loops.details.txt",row.names=F,quote=F,sep='\t')
 
 write.table(mat.top[,c(1,4,5)],"uniq_loops.final.txt",row.names=F,quote=F,sep='\t',col.names=F)
 
-#tab1 = do.call(rbind,tab)
+out = mat.top[,c(1,4,5)]
+colnames(out) = c("chr1","x1","y1")
+out$chr2 = out$chr1
+out$x2 = out$x1+10000
+out$y2 = out$y1+10000
+out$color = "0,0,255"
 
+
+write.table(out[,c(1,2,5,4,3,6,7)],"uniq_loops.final.for_hiccups.txt",row.names=F,quote=F,sep='\t')
 
 

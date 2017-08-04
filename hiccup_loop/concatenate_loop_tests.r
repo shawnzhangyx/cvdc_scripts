@@ -1,6 +1,6 @@
 setwd("../../analysis/hiccup_loops")
-files= list.files(pattern="requested_list_10000",path="loops",full.names=T,recursive=T)
-names = sub("loops/(D.._HiC_Rep.)/requested_list_10000","\\1",files)
+files= list.files(pattern="requested_list_10000",path="merged_loops",full.names=T,recursive=T)
+names = sub("merged_loops/(D.._HiC_Rep.)/requested_list_10000","\\1",files)
 
 dat = list()
 for (i in 1:12){
@@ -21,5 +21,5 @@ Sig = ( B<0.1 | D <0.1 | H < 0.1 | V <0.1 )
 out = cbind(datm[,c(1,2,3)],datm[,seq(8,ncol(datm),17)],Sig)
 colnames(out) = c("chr","x1","y1",paste0("ob.",names),paste0("sig.",names))
 
-write.table(out,"combined_loops.hiccup_refined.txt",row.names=F,quote=F,sep='\t')
+write.table(out,"combined_loops.uniq.counts.hiccup_tests.txt",row.names=F,quote=F,sep='\t')
 
