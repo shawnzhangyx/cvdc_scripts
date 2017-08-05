@@ -1,13 +1,13 @@
 setwd("../../analysis/hiccup_loops")
 clu=commandArgs(trailing=T)[1]
-loop = read.delim("replicated_loops/loops.cpb.logFC.edger.dynamic.cluster.txt")
+loop = read.delim("loops/loops.cpb.logFC.edger.dynamic.cluster.txt")
 ## leave cluster D02
 #a = read.delim("anchors/anchors.sorted.by.cluster_feature.txt")
-a = read.delim("replicated_loops/loop_anchors.uniq.30k.num_loops.cluster.txt")
+a = read.delim("anchors/anchors.uniq.30k.num_loops.txt",header=F)
 colnames(a)[1:3] = c("chr","start","end")
 lists = list()
 lists[["anchor"]] = a[,c(1:3)]
-for (feature in c("H3K4me3","H3K27me3","H3K27ac","H3K4me1","rnaseq")){
+for (feature in c("H3K4me3","H3K27me3","H3K27ac","H3K4me1","rnaseq","CTCF")){
   data = read.delim(paste0("overlap_anchors_to_features/anchor.",
     feature,".norm_counts.txt"))
 #  data[,c(4:9)] = sweep(data[,c(4:9)],1,apply(data[,c(4:9)],1,max),'/')
@@ -47,18 +47,22 @@ od = order(a1$H3K4me3<1, a2$H3K4me3<1,a1$H3K27me3<1, a2$H3K27me3<1, -k4me3a1,-k4
 a1 = a1[od,]
 a2 = a2[od,]
 
-mat1 = a1[,-c(1,2,3,10,11,42:48)]
+mat1 = a1[,-c(1,2,3,10,11,46:52)]
 #mat1 = mat1[order(-k4me3a1,-k27aca1),]
 for (i in seq(1,31,6)){
 mat1[,i:(i+5)] = sweep(mat1[,i:(i+5)],1,apply(mat1[,i:(i+5)],1,max),'/')
 }
+mat1[,37:40] = sweep(mat1[,37:40],1,apply(mat1[,37:40],1,max),'/')
+
 mat1[is.na(mat1)] = 0
 #mat1[,1:6] = sweep(mat1[,1:6],1,apply(mat1[,1:6],1,max),'/')
-mat2 = a2[,-c(1,2,3,10,11,42:48)]
+mat2 = a2[,-c(1,2,3,10,11,46:52)]
 #mat2 = mat2[order(-k4me3a1,-k27aca1),]
 for (i in seq(1,31,6)){
 mat2[,i:(i+5)] = sweep(mat2[,i:(i+5)],1,apply(mat2[,i:(i+5)],1,max),'/')
 }
+mat2[,37:40] = sweep(mat2[,37:40],1,apply(mat2[,37:40],1,max),'/')
+
 mat2[is.na(mat2)] = 0
 
 

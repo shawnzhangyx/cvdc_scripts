@@ -41,8 +41,8 @@ anchor = read.delim("overlap_anchors_to_features/anchor.gene_tss.unique.txt",hea
 rpkm = data.frame(fread("../../data/rnaseq/gene.rpkm.edger.txt"))
 rpkm = rpkm[,c(1:15)]
 m = merge(anchor,rpkm, by.x="V7",by.y="Geneid",all.x=T)
-m[,c(12:23)][is.na(m[,c(12:23)])] = 0
-agg = aggregate(.~V1+V2+V3, m[,c(2:4,12:23)],sum)
+m[,c(13:24)][is.na(m[,c(13:24)])] = 0
+agg = aggregate(.~V1+V2+V3, m[,c(2:4,13:24)],sum)
 rep1 = agg[,4:9]
 rep2 = agg[,10:15]
 ave = cbind(agg[,1:3],(rep1+rep2)/2)
