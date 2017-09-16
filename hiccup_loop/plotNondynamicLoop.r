@@ -1,12 +1,11 @@
 setwd("../../analysis/hiccup_loops")
-clu=commandArgs(trailing=T)[1]
-loop = read.delim("loops/loops.cpb.logFC.edger.dynamic.cluster.txt",stringsAsFactors=F)
-a1p = read.delim("loops/loops.dynamic.cluster.anchor1.txt",stringsAsFactors=F)
-a2p = read.delim("loops/loops.dynamic.cluster.anchor2.txt",stringsAsFactors=F)
+loop = read.delim("loops/loops.cpb.logFC.edger.nondynamic.txt",stringsAsFactors=F)
+a1 = read.delim("loops/loops.nondynamic.cluster.anchor1.txt",stringsAsFactors=F)
+a2 = read.delim("loops/loops.nondynamic.cluster.anchor2.txt",stringsAsFactors=F)
 ## leave cluster D02
-loopm = loop[which(loop$cluster==clu),]
-a1 = a1p[which(loop$cluster==clu),]
-a2 = a2p[which(loop$cluster==clu),]
+#loopm = loop[which(loop$cluster==clu),]
+#a1 = a1p[which(loop$cluster==clu),]
+#a2 = a2p[which(loop$cluster==clu),]
 
 ## move promoter to a1. 
 a2pi = which(a2$H3K4me3>0 & a1$H3K4me3==0)
@@ -14,25 +13,16 @@ tmp = a2[a2pi,]
 a2[a2pi,] = a1[a2pi,]
 a1[a2pi,] = tmp
 
+cor.h3k27me3 = sapply(1:nrow(a1),function(x){ cor(as.numeric(a1[x,10:15]),1:6)})
+cor.h3k27ac  = sapply(1:nrow(a1),function(x){ cor(as.numeric(a1[x,16:21]),1:6)})
 ### calculate 
 ### sort by an defined order. 
-
-cor.h3k27me3 = sapply(1:nrow(a1),function(x){ cor(as.numeric(a1[x,10:15]),1:6)}) 
-cor.h3k27ac  = sapply(1:nrow(a1),function(x){ cor(as.numeric(a1[x,16:21]),1:6)})
-
-#cor2 = sapply(1:nrow(a1),function(x){ cor(as.numeric(a2[x,16:21]),1:6)})
-#cor1[is.na(cor1)] = -1
-#cor2[is.na(cor2)] = 0
-#cor = (cor1+cor2)/2
-
-
-od = order(a1$H3K4me3<1, a2$H3K4me3<1,cor.h3k27me3,cor.h3k27ac)
+od = order(a1$H3K4me3<1, a2$H3K4me3<1,cor.h3k27ac,cor.h3k27me3)
 a1 = a1[od,]
 a2 = a2[od,]
 
-#mat1[,1:6] = sweep(mat1[,1:6],1,apply(mat1[,1:6],1,max),'/')
 lp = loop[,seq(2,13,2)] + loop[,seq(3,13,2)]
-lp = sweep(lp,1,apply(lp,1,max),'/')[loop$cluster==clu,][od,]
+lp = sweep(lp,1,apply(lp,1,max),'/')[od,]
 
 mat1 = a1[,4:37]
 for (i in seq(1,25,6)){

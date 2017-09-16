@@ -8,7 +8,7 @@ cd ../
 if [ ! -d counts ]; then mkdir counts; fi
 #for mark in CTCF
 #  do
-  files=$(ls bam/${mark}_*_merged.bam)
+  files=$(ls bam/${mark}_D??_Rep?.bam)
   featureCounts -a merged_peaks/${mark}_peaks.saf -o counts/${mark}.counts $files -F SAF -T 8
 #  done
 wait; echo "feature counts done"
