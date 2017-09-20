@@ -11,7 +11,8 @@ for file in $(ls arrowhead_tads/D??.Rep?.10000_blocks); do
   awk -v OFS="\t" -v name=${file/arrowhead_tads\/} '{ if(NR>1) print $0,name}' $file
     done |sort --parallel=4 -k1,1 -k2,2n -k3,3n - >> combined_tads.raw.sorted.txt
 
-    echo -e "$(head -n 1 combined_tads.raw.sorted.txt)\tgrp1\tgrp2" > combined_tads.grouped.txt
-    awk -v OFS="\t" 'function abs(v) {return v < 0 ? -v : v} {if ( abs($2-pre) >25000) { pre=$2;grp=grp+1;} print $0,grp}' combined_tads.raw.sorted.txt | tail -n +2 | sort --parallel=4 -k4,4 -k19,19n |\
-    awk -v OFS="\t" 'function abs(v) {return v < 0 ? -v : v} {if ( abs($3-pre) >25000) { pre=$3;grp=grp+1;} print $0,grp}' >> combined_tads.grouped.txt
+echo -e "$(head -n 1 combined_tads.raw.sorted.txt)\tgrp1\tgrp2" > combined_tads.grouped.txt
+awk -v OFS="\t" 'function abs(v) {return v < 0 ? -v : v} {if ( abs($2-pre) >50000) { pre=$2;grp=grp+1;} print $0,grp}' combined_tads.raw.sorted.txt | tail -n +2 | sort --parallel=4 -k1,1 -k3,3n |\
+awk -v OFS="\t" 'function abs(v) {return v < 0 ? -v : v} {if ( abs($3-pre) >50000) { pre=$3;grp=grp+1;} print $0,grp}' >> combined_tads.grouped.txt
 
+merge_tads_across_stages2.r

@@ -18,5 +18,8 @@ combined$color = "0,0,0"
 combined = merge(combined,sample,by=c("grp1","grp2"))
 out = combined[,c(3:10)]
 out = out[!duplicated(out),]
+require(stringr)
+out$num_rep = str_count(out$sample,',')+1
+out = out[which(out$num_rep>1),-9]
 write.table(out,"combined_tads.uniq.txt",row.names=F,quote=F,sep='\t')
 

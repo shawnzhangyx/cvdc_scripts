@@ -18,9 +18,10 @@ while read chr1 x1 x2 chr2 y1 y2 field4; do
 done 
 wait
 for name in $(cat ../../data/hic/meta/names.txt);do
-Rscript ../../scripts/tads/sum_tad_counts_each_sample.r contacts_by_samples/$name.contacts.10k.txt contacts_by_samples/$name.tad.sum.txt
+Rscript ../../scripts/tads/sum_tad_counts_each_sample.r contacts_by_samples/$name.contacts.10k.txt contacts_by_samples/$name.tad.sum.txt &
 done
-
+wait
+Rscript merge_tad_counts_across_stages.r
 #pushd ../../analysis/tads/
 #echo -e "chr\tx1\ty1\tD00_1\tD00_2\tD02_1\tD02_2\tD05_1\tD05_2\tD07_1\tD07_2\tD15_1\tD15_2\tD80_1\tD80_2" |tee combined_tads.uniq.counts.txt 
 #paste contacts_by_samples/*.contacts.10k.txt | \
