@@ -15,4 +15,4 @@ name=$(sed -n "${PBS_ARRAYID}p" ../../data/hic/meta/names.txt)
 echo $name
 sample=../../data/hic/juicer/${name}.hic
 
-java -jar -Xms3G -Xmx3G -jar /home/shz254/software/hic/juicebox/juicebox_tools.7.0.jar arrowhead -r 10000 -k KR $sample arrowhead/$name combined_tads.uniq.gt1.txt combined_tads.uniq.gt1.txt
+java -jar -Xms3G -Xmx3G -jar /home/shz254/software/hic/juicebox/juicebox_tools.7.0.jar arrowhead -r 10000 -k KR $sample arrowhead_test_list/$name combined_tads.uniq.gt1.txt combined_tads.uniq.gt1.txt

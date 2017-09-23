@@ -1,6 +1,6 @@
 pushd ../../data/tfChIPseq/merged_peaks
 
-fastaFromBed -fi $HOME/annotations/hg19/hg19.fa -bed CTCF_merged_peaks.bed > CTCF_merged_peaks.fa
+fastaFromBed -fi /mnt/silencer2/home/yanxiazh/annotations/hg19/hg19.fa -bed CTCF_merged_peaks.bed > CTCF_merged_peaks.fa
 
 fimo --max-strand --text ../../annotation/CTCF.motif  CTCF_merged_peaks.fa > CTCF_merged_peaks.motif_matches.txt
 
