@@ -43,6 +43,8 @@ rownames(km$centers) = 1:5
 km$cluster = order(c2)[km$cluster]
 norm.o = norm[order(-km$cluster),]
 rownames(norm.o) = 1:nrow(norm.o)
+norm.o = (norm.o[,seq(1,12,2)]+norm.o[,seq(2,12,2)])/2
+
 melted =melt(as.matrix(norm.o))
 size = rev(table(km$cluster))
 inc = 0
@@ -55,7 +57,8 @@ col=colorRampPalette(c("lightyellow","red"))
 )
 
 ggplot(melted,aes(x=Var2,y=Var1,fill=value)) + geom_tile() + 
-  scale_fill_gradient2(high="red",mid="lightyellow") + 
+#  scale_fill_gradient2(high="red",mid="lightyellow") + 
+  scale_fill_gradientn(colors=c("white","red","red"),values=c(0,0.7,1)) +
   geom_hline(yintercept=inc)+ 
   theme( axis.text.x = element_text(angle = 90, hjust = 1))
 dev.off()

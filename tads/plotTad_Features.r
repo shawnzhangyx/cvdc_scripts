@@ -3,8 +3,11 @@ library(gridExtra)
 
 
 setwd("../../analysis/tads")
-name="D00.unique"
-for (name in c("D00.unique","D00.pre","D00.pos")) {
+#name="D00.unique"
+
+for (stage in c("D00","D80","gain")){
+for (type in c(".within",".pre",".pos")) {
+name=paste0(stage,type)
 glist=list()
 for ( file in list.files(path="overlap_tad_to_features",pattern=paste0(name,".*.norm_counts"),full.names=T)){
 com = read.delim(file)
@@ -24,4 +27,4 @@ pdf(paste0("overlap_tad_to_features/",name,".feature_counts.pdf"),width=5,height
 grid.arrange(grobs=glist,ncol=1)
 dev.off()
 }
-
+}

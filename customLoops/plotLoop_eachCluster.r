@@ -27,6 +27,8 @@ cor.h3k27ac  = sapply(1:nrow(a1),function(x){ cor(as.numeric(a1[x,16:21]),1:6)})
 
 
 od = order(a1$H3K4me3<1, a2$H3K4me3<1,cor.h3k27me3,cor.h3k27ac)
+write.table(gsub(" ","\t",loopm[od,"name"]),paste0("clusters/loops.",clu,".order.bed"),row.names=F,col.names=F,quote=F,sep='\t')
+
 a1 = a1[od,]
 a2 = a2[od,]
 

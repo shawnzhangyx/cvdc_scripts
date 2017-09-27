@@ -15,7 +15,8 @@ name=$(sed -n "${PBS_ARRAYID}p" ../../data/hic/meta/names.txt)
 echo $name
 sample=../../data/hic/juicer/${name}.hic
 > oe/$name.oe.txt
-tail -n +2  combined_tads.uniq.txt |
+tail -n +2  combined_tads.uniq.gt1.txt |
 while read chr1 x1 x2 field4; do
-java -jar -Xmx4G /home/shz254/software/hic/juicebox/juicebox_tools.7.0.jar dump oe KR $sample chr$chr1:$x1:$x2 chr$chr1:$x1:$x2 BP 10000 oe/$name.tmp && awk -v chr=$chr1 -v x1=$x1 -v x2=$x2 -v OFS="\t" '{print chr,x1,x2,$0}' oe/$name.tmp >> oe/$name.oe.txt
+#java -jar -Xmx4G /home/shz254/software/hic/juicebox/juicebox_tools.7.0.jar dump oe KR $sample chr$chr1:$x1:$x2 chr$chr1:$x1:$x2 BP 10000 oe/$name.tmp && awk -v chr=$chr1 -v x1=$x1 -v x2=$x2 -v OFS="\t" '{print chr,x1,x2,$0}' oe/$name.tmp >> oe/$name.oe.txt
+java -jar -Xmx4G /home/shz254/software/hic/juicebox/juicebox_tools.7.0.jar dump oe KR $sample $chr1:$x1:$x2 $chr1:$x1:$x2 BP 10000 oe/$name.tmp && awk -v chr=$chr1 -v x1=$x1 -v x2=$x2 -v OFS="\t" '{print chr,x1,x2,$0}' oe/$name.tmp >> oe/$name.oe.txt
 done

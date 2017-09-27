@@ -1,6 +1,9 @@
 setwd("../../analysis/tads")
 
-for (name in c("D00.unique","D00.pre","D00.pos")){
+for ( stage in c("D00","D80","gain")){
+
+for ( pos in c(".within",".pre",".pos")){
+name = paste0(stage,pos)
 
 ## histone marks
 mark = "H3K27ac"
@@ -38,4 +41,5 @@ ave = cbind(agg[,1:3],(rep1+rep2)/2)
 colnames(ave) = c("chr","start","end",paste0("RNAseq",c("_D00","_D02","_D05","_D07","_D15","_D80")))
 write.table(ave,paste0("overlap_tad_to_features/",name,".rnaseq.norm_counts.txt"),quote=F,sep='\t',row.names=F)
 
-}
+
+}}
