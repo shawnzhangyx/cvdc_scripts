@@ -9,4 +9,9 @@ mkdir peaks/$name/
 macs2 callpeak -t bam/${name}.seb1.bam -c bam/Input.seb1.bam -n $name --outdir peaks/$name/ --tempdir peaks/$name --nomodel --extsize 180 &
 done
 
+name=GATA4
+macs2 callpeak -t bam/${name}.seb2.bam -c bam/Input.seb1.bam -n $name --outdir peaks/$name/ --tempdir peaks/$name --nomodel --extsize 180 
+
+
+
 ## PePr peaks

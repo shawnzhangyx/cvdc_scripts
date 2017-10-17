@@ -9,15 +9,16 @@ a1 = a1p[which(loop$cluster==clu),]
 a2 = a2p[which(loop$cluster==clu),]
 
 ## move promoter to a1. 
-a2pi = which(a2$H3K4me3>0 & a1$H3K4me3==0)
+a2pi = which( ( a2$H3K4me3>0 | rowSums(a2[,28:33])>0 )
+              & ( a1$H3K4me3==0 & rowSums(a1[,28:33])==0)) 
 tmp = a2[a2pi,]
 a2[a2pi,] = a1[a2pi,]
 a1[a2pi,] = tmp
 
 ### calculate 
 ### sort by an defined order. 
-
-cor.h3k27me3 = sapply(1:nrow(a1),function(x){ cor(as.numeric(a1[x,10:15]),1:6)}) 
+#cor.h3k27me3 = sapply(1:nrow(a1),function(x){ cor(as.numeric(a1[x,10:15]),1:6)}) 
+cor.h3k27me3 = a1$H3K27me3_D00 < 50 | a2$H3K27me3_D00 < 50
 cor.h3k27ac  = sapply(1:nrow(a1),function(x){ cor(as.numeric(a1[x,16:21]),1:6)})
 
 #cor2 = sapply(1:nrow(a1),function(x){ cor(as.numeric(a2[x,16:21]),1:6)})
@@ -25,8 +26,11 @@ cor.h3k27ac  = sapply(1:nrow(a1),function(x){ cor(as.numeric(a1[x,16:21]),1:6)})
 #cor2[is.na(cor2)] = 0
 #cor = (cor1+cor2)/2
 
+od = order( (a1$H3K4me3<1 & rowSums(a1[,28:33])==0), 
+            (a2$H3K4me3<1 & rowSums(a2[,28:33])==0),cor.h3k27me3,cor.h3k27ac)
+#            (a2$H3K4me3<1 & rowSums(a2[,28:33])==0),cor.h3k27ac)
 
-od = order(a1$H3K4me3<1, a2$H3K4me3<1,cor.h3k27me3,cor.h3k27ac)
+#od = order(a1$H3K4me3<1 & a1$TSS<0 , a2$H3K4me3<1 & a2$TSS <0 ,cor.h3k27me3,cor.h3k27ac)
 write.table(gsub(" ","\t",loopm[od,"name"]),paste0("clusters/loops.",clu,".order.bed"),row.names=F,col.names=F,quote=F,sep='\t')
 
 a1 = a1[od,]

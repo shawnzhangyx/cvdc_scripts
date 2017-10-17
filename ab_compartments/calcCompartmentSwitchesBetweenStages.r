@@ -1,4 +1,4 @@
-setwd("/mnt/silencer2/home/yanxiazh/projects/cardiac_dev/analysis/ab_compartments/")
+setwd("../../analysis/ab_compartments/")
 data = read.delim("pc1_data/combined.matrix",header=F)
 
 mat = data[,-(1:3)]
@@ -37,24 +37,23 @@ dat.rep.m = melt(as.matrix(dat.rep2))
 
 
 
-pdf("compartmentSwitches.pdf")
+pdf("compartmentSwitches.pdf",width=3,height=3)
 ggplot(melted,aes(x=Var2,y=value,fill=Var1)) + 
   geom_bar(stat="identity",position=position_dodge()) +
   scale_fill_manual(values=cbbPalette[c(3,7)])+
-  ylab("%Compartment Change") + xlab("BetweenStages")
-
-
-ggplot(mat.rep.m, aes(x=Var2,y=Var1,fill=value)) + geom_tile() + 
-  scale_fill_gradient2(high=cbbPalette[7],low=cbbPalette[3])+ 
-  theme( axis.text.y= element_blank(),
-  axis.ticks = element_blank())
-
-ggplot(dat.rep.m, aes(x=Var2,y=Var1,fill=value)) + geom_tile() +
-  scale_fill_gradient2(high=cbbPalette[7],low=cbbPalette[3])+
-  theme( axis.text.y= element_blank(),
-  axis.ticks = element_blank())
+  ylab("%Compartment Change") + xlab("BetweenStages") +
+  theme( axis.text.x = element_text(angle = 90, hjust = 1))
 dev.off()
 
+#ggplot(mat.rep.m, aes(x=Var2,y=Var1,fill=value)) + geom_tile() + 
+#  scale_fill_gradient2(high=cbbPalette[7],low=cbbPalette[3])+ 
+#  theme( axis.text.y= element_blank(),
+#  axis.ticks = element_blank())
+#ggplot(dat.rep.m, aes(x=Var2,y=Var1,fill=value)) + geom_tile() +
+#  scale_fill_gradient2(high=cbbPalette[7],low=cbbPalette[3])+
+#  theme( axis.text.y= element_blank(),
+#  axis.ticks = element_blank())
+#dev.off()
 1-length(which(abs(rowSums(mat.rep))==6))/nrow(mat.rep)
 # 0.184
 
@@ -63,4 +62,10 @@ dev.off()
 #    scale_fill_gradient2(mid="white",high='red')
 
 write.table(switch.c,"compartmentSwitch/switchRatioBetweenStage.txt",sep='\t',quote=F)
+
+switch.bed = cbind(dat.rep[,1:3],dat.rep2)
+switch.bed = switch.bed[-which( rowSums( switch.bed[,4:9]>0) %in% c(0,6)),]
+
+write.table(switch.bed,"compartmentSwitch/anyStage.switch.bed",row.names=F,col.names=F,quote=F,sep='\t')
+
 

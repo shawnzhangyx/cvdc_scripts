@@ -5,5 +5,7 @@
 #join <(sort -k 1 genes_overlap_increase.txt) <(sort -k 1 ../../../data/rnaseq/gene.rpkm.txt) -t $'\t' > gene_increase_rpkm.txt
 
 #join <(sort -k 1 genes_overlap_decrease.txt) <(sort -k 1 ../../../data/rnaseq/gene.rpkm.txt) -t $'\t' > gene_decrease_rpkm.txt
+cd ../../analysis/ab_compartments/compartmentSwitch
+intersectBed -a ../../../data/annotation/gencode.v19.annotation.transcripts.tss1k.bed -b anyStage.switch.bed -wo > anyStage.switch.overlap_gene.bed
 
 

@@ -1,5 +1,5 @@
-cd /mnt/silencer2/home/yanxiazh/projects/cardiac_dev/data/chipseq/
-for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3 
+cd ../../data/chipseq/
+for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3 H3K9me3
   do
   (
   peaks=$(ls peaks/${mark}_*/pooled/trurep_peaks.narrowPeak)
@@ -9,8 +9,8 @@ for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3
 wait 
 echo done
 
-for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3
-  do
-  intersectBed -f 0.5 -F 0.5 -e -u -a merged_peaks/${mark}_merged_peaks.bed -b merged_peaks/Input_recur_peaks.bed > merged_peaks/${mark}_merged_peaks.filtered.bed
-  intersectBed -f 0.5 -F 0.5 -e -v -a merged_peaks/${mark}_merged_peaks.bed -b merged_peaks/Input_recur_peaks.bed > merged_peaks/${mark}_merged_peaks.kept.bed
-  done 
+#for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3
+#  do
+#  intersectBed -f 0.5 -F 0.5 -e -u -a merged_peaks/${mark}_merged_peaks.bed -b merged_peaks/Input_recur_peaks.bed > merged_peaks/${mark}_merged_peaks.filtered.bed
+#  intersectBed -f 0.5 -F 0.5 -e -v -a merged_peaks/${mark}_merged_peaks.bed -b merged_peaks/Input_recur_peaks.bed > merged_peaks/${mark}_merged_peaks.kept.bed
+#  done 

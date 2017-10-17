@@ -15,7 +15,7 @@ atac1 = over[which(over$name %in% c(loop$a1,loop$a2)),]
 peaks = data.frame(fread("../../data/atac/peaks/atac_merged_peaks.overlap_stage.txt"))
 
 atac2 = cbind(peaks[match(atac1$V7,peaks$V4),],atac1$name)
-
+# ATAC seq peaks that are gained. 
 atac3 = atac2[which(rowSums(atac2[,5:9])==0 & atac2[,10]>0),]
 
 
@@ -30,6 +30,7 @@ atac5$dist = as.numeric(sub("(.*) (.*) (.*)","\\3",atac5$loop)) -
   as.numeric(sub("(.*) (.*) (.*)","\\2",atac5$loop))
 
 atac5 = atac5[order(atac5$dist),]
+colnames(atac5)[1:10] = c("chr",'start','end','atacPeak.name','ATAC.D00','ATAC.D02','ATAC.D05','ATAC_D05','ATAC_D15','ATAC_D80')
 
 write.table(atac5, "test.overlap_loop.atac.inverse_switch",row.names=F,sep='\t',quote=F)
 

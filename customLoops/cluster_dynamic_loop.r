@@ -50,19 +50,22 @@ size = rev(table(km$cluster))
 inc = 0
 for (i in 1:length(size))inc[i+1] = inc[i]+ size[i]
 
-pdf("figures/dynamic_loops.kmeans_K5.pdf")
-heatmap.2(km$centers,Colv=FALSE,Rowv=FALSE,
-dendrogram="none",cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F,
-col=colorRampPalette(c("lightyellow","red"))
-)
-
+pdf("figures/dynamic_loops.kmeans_K5.pdf",width=4,height=4)
+#heatmap.2(km$centers,Colv=FALSE,Rowv=FALSE,
+#dendrogram="none",cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F,
+#col=colorRampPalette(c("lightyellow","red"))
+#)
 ggplot(melted,aes(x=Var2,y=Var1,fill=value)) + geom_tile() + 
-#  scale_fill_gradient2(high="red",mid="lightyellow") + 
   scale_fill_gradientn(colors=c("white","red","red"),values=c(0,0.7,1)) +
-  geom_hline(yintercept=inc)+ 
+  geom_hline(yintercept=inc)+ theme_minimal() +
   theme( axis.text.x = element_text(angle = 90, hjust = 1))
 dev.off()
 
 d$cluster = km$cluster
 write.table(d,"loops/loops.cpb.logFC.edger.dynamic.cluster.txt",quote=F,sep='\t')
+
+all = read.delim("loops/loops.cpb.logFC.edger.final.txt")
+all$cluster=0
+all$cluster[match(d$name,all$name)] = d$cluster
+write.table(all,"loops/loops.cpb.logFC.edger.final.cluster.txt",quote=F,sep='\t')
 

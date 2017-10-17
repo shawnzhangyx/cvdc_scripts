@@ -13,6 +13,16 @@ Rscript combineAcrossStage.r
 
 ## cluster the matrix and ouptut compartments that switch from A/B to B/A.
 Rscript clusterMatrix.r
+
+## calculate compartment A B trans-contacts. 
+bash run_calc_ab_trans_contacts.sh
+  #- Rscript calc_ab_trans_contacts.r
+  #- Rscript calc_ab_trans_bins.r
+Rscript cal_ab_trans_contact_ave.r
+
+## calculate the AB compartments switch
+Rscript calcCompartmentSwitchesBetweenStages.r
+
 ## overlap genes with compartment switches
 bash overlapGenes_compartmentSwitch.sh
 ## Align the clustering matrix to Gene & perfrom clustering. 

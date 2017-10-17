@@ -47,7 +47,7 @@ write.table(a,"CTCF_merged_peaks.overlap_stage.edger.txt",row.names=F,sep='\t',q
 
 melted = melt(a,id.vars="name",measure.vars=c("D00","D02","D07","D15"))
 
-pdf("CTCF_binding_over_stages.pdf")
+jpeg("CTCF_binding_over_stages.jpg")
 ggplot(melted, aes(x=variable,y=name,fill=value)) + geom_tile() + 
   theme( axis.text.y = element_blank(),legend.position="n")
 dev.off()

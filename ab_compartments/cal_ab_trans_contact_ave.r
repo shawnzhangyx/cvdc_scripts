@@ -1,5 +1,4 @@
 #name="D00_HiC_Rep1"
-Rscript plotTad_Features.r
 setwd("../../analysis/ab_compartments")
 ratio = list()
 for (name in readLines("../../data/hic/meta/names.txt")) {

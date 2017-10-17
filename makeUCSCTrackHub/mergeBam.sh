@@ -12,14 +12,14 @@ for day in 00 02 05 07 15 80
   samtools index $atacdir/D${day}_sorted_nodup-chrM.30.bam ) &
   done
 
-chipdir=../../data/chipseq/bams
+chipdir=../../data/chipseq/bam
 for day in 00 02 05 07 15 80
   do
-#  for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3 Input H3K9me3
-  for mark in H3K9me3
+  for mark in H3K27ac H3K27me3 H3K4me1 H3K4me3 Input H3K9me3
+#  for mark in H3K27ac
   do
       (
-      files=$(ls $chipdir/${mark}_D${day}_*.30.nodup.bam)
+      files=$(ls $chipdir/${mark}_D${day}_*.srt.bam)
       echo $files
        samtools merge $chipdir/${mark}_D${day}.merged.bam $files -f
        samtools index $chipdir/${mark}_D${day}.merged.bam

@@ -1,16 +1,16 @@
-cd /mnt/silencer2/home/yanxiazh/projects/cardiac_dev/data/chipseq
+cd ../../data/chipseq
 
 #mark=H3K27ac
 #day=00
 ## link files
-for mark in H3K9me3 #H3K27ac H3K27me3 H3K4me1 H3K4me3 
+for mark in H3K9me3 H3K27ac H3K27me3 H3K4me1 H3K4me3 
   do 
   for day in 00 02 05 07 15 80
     do 
     (
-    r1=$(ls bams/${mark}_D${day}_1_*nodup.bam)
-    r2=$(ls bams/${mark}_D${day}_2_*nodup.bam)
-    ct=$(ls bams/Input_D${day}_*nodup.bam)
+    r1=$(ls bam/${mark}_D${day}_1_*.srt.bam)
+    r2=$(ls bam/${mark}_D${day}_2_*.srt.bam)
+    ct=$(ls bam/Input_D${day}.merged.bam)
     
     base_dir=peaks/${mark}_D${day}
     mkdir $base_dir
@@ -28,7 +28,7 @@ for mark in H3K9me3 #H3K27ac H3K27me3 H3K4me1 H3K4me3
     trurep_peak=$base_dir/pooled/trurep_peaks.narrowPeak
     trurep_filtered_peak=$base_dir/pooled/trurep_peaks.filtered.narrowPeak
     intersectBed -a $pooled_peak -b $rep1_peak -f 0.5 -F 0.5 -e -u | intersectBed -a stdin -b $rep2_peak -f 0.5 -F 0.5 -e -u > $trurep_peak
-    intersectBed -a $trurep_peak -b $HOME/annotations/hg19/wgEncodeDacMapabilityConsensusExcludable.bed -v > $trurep_filtered_peak
-    ) &
+    intersectBed -a $trurep_peak -b /mnt/tscc/yanxiao/annotations/hg19/wgEncodeDacMapabilityConsensusExcludable.bed -v > $trurep_filtered_peak
+    ) & 
     done
   done
