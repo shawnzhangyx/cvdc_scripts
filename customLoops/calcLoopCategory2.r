@@ -11,11 +11,10 @@ a2 = ctcf2[match(loop$a2,paste(ctcf2$V1,ctcf2$V2+10000)),]
 both = cbind(loop[,c("name","cluster")],a1[,-c(1:3)] * a2[,-c(1:3)], a1[,-c(1:3)] + a2[,-c(1:3)])
 both[,3:4][is.na(both[,3:4])]=0
 colnames(both)[3:4] = c("CTCF.prod","CTCF.sum")
-agg = aggregate(CTCF~cluster,both,
+agg = aggregate(CTCF.prod~cluster,both,
   FUN=function(vec){ length(which(vec>0))})
 
 agg2 = agg[,-1]/table(both$cluster)
-
 
 mark = "H3K27ac"
 anchor = read.table(paste0("overlap_anchors_to_features/anchor.",mark,"_merged_peaks.txt"))
