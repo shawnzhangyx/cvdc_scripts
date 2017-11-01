@@ -1,8 +1,11 @@
 setwd("../../analysis/customLoops/gWAS")
 
 argv = commandArgs(trailing=T)
+## f1 is file for total coverage of genome. 
 f1 =argv[1]
+## f2 is file of gWAS SNP overlapped.  
 f2 =argv[2]
+## f3 is the output file
 f3 =argv[3]
 #cov = read.table("anchors.merged.bed")
 cov = read.table(f1)

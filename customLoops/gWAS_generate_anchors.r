@@ -21,3 +21,16 @@ out35$V3 = out35$V3+10000
 write.table(out25[,1:3],"gWAS/anchors.clusters2-5.bed",row.names=F,col.names=F,sep='\t',quote=F)
 write.table(out35[,1:3],"gWAS/anchors.clusters3-5.bed",row.names=F,col.names=F,sep='\t',quote=F)
 
+
+### nondynamic loops
+nondyn = read.delim("loops/loops.cpb.logFC.edger.nondynamic.txt")
+anchors = read.table("anchors/anchors.uniq.bed")
+nondyn$a1 = sub("(.*) (.*) (.*)","\\1 \\2",nondyn$name)
+nondyn$a2 = sub("(.*) (.*) (.*)","\\1 \\3",nondyn$name)
+anchors$name = paste(anchors$V1,anchors$V2)
+out_nondyn = anchors[which(anchors$name %in% c(nondyn$a1,nondyn$a2)),]
+out_nondyn$V2 = out_nondyn$V2-10000
+out_nondyn$V3 = out_nondyn$V3+10000
+
+write.table(out_nondyn[,1:3],"gWAS/anchors.nondynamic.bed",row.names=F,col.names=F,sep='\t',quote=F)
+

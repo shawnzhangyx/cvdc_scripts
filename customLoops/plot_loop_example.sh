@@ -6,4 +6,10 @@ Rscript ../utility/plot_loop_triangular.r 12 118610000 118810000 ../../analysis/
 
 #MSX1
 Rscript ../utility/plot_loop_triangular.r 4 4680000 4850000 ../../analysis/customLoops/figures/loop_examples
+#BMP2 
+Rscript ../utility/plot_loop_triangular.r 20 6560000 6740000 ../../analysis/customLoops/figures/loop_examples
+#HAND2
+Rscript ../utility/plot_loop_triangular.r 4 174450000 174590000 ../../analysis/customLoops/figures/loop_examples
+#SCN5A
+Rscript ../utility/plot_loop_traingular.r 3 38550000 38680000 ../../analysis/customLoops/figures/loop_examples
 

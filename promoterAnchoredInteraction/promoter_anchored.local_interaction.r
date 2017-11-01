@@ -1,3 +1,5 @@
+library(doParallel)
+library(data.table)
 args = commandArgs(trailing=T)
 if (length(args) < 2) {
   print("arguments too short. %prog input output [start end]")
@@ -21,12 +23,11 @@ bins = read.table(bin.file)$V2-1
 # candidates
 cand = contacts[which(contacts$p_global< 0.01 & ( contacts$V1 %in% bins | contacts$V2 %in% bins)),]
 print(c("number of candiates", nrow(cand)))
-library(doParallel)
 registerDoParallel(cores=8)
 
 out = foreach(i=1:nrow(cand)) %dopar% {
 #print(i)
-  tmp = contacts[which( contacts$V1 > cand[i,1]-40000 & contacts$V1 < cand[i,1]+40000 & 
+  tmp = contacts[which( contacts$V1 > cand[i,1]-40000 & contacts$V1 < cand[i,1]+40000 &
                  contacts$V2 > cand[i,2]-40000 & contacts$V2 < cand[i,2]+40000 ),]
   tmp$corrected = tmp$V3/margin$V3[match(tmp$dist,margin$dist)]*margin$V3[which(margin$dist==cand[i,4])]
   cand$exp_local[i] = mean(tmp$corrected)

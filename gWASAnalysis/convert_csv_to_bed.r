@@ -18,5 +18,5 @@ write.table(cbind(paste0("chr",b$CHR_ID,"\t",b$CHR_POS,"\t",as.numeric(b$CHR_POS
 #a=data.frame(fread("heartgwasLDcommonSNPrightorder.bed.csv"))
 #lead = a[,c(2,3,4,1,5)]
 #lead = lead[!duplicated(lead),]
-#write.table(a[,c(7,8,9,6,5)],"heartgwasLDcommonSNP.bed",row.names=F,col.names=F,sep='\t',quote=F)
+#write.table(a[,c(7,8,9,6,1,2,3,4,5)],"heartgwasLDcommonSNP.bed",row.names=F,col.names=F,sep='\t',quote=F)
 

@@ -29,13 +29,13 @@ colnames(counts)[-c(1:6)] = sub("bam.(.*D..).*.bam","\\1",colnames(counts)[-c(1:
 sums = colSums(counts[,-c(1:6)])
 counts[,-c(1:6)] = sweep(counts[,-c(1:6)],2,sums,'/')*1e6
 m = merge(anchor,counts, by.x="V7",by.y="Geneid",all.x=T)
-m[,c(13:20)][is.na(m[,c(13:20)])] = 0
-agg = aggregate(.~V1+V2+V3, m[,c(2:4,13:20)],sum)
-rep1 = agg[,seq(4,11,2)]
-rep2 = agg[,seq(5,11,2)]
+m[,c(13:23)][is.na(m[,c(13:23)])] = 0
+agg = aggregate(.~V1+V2+V3, m[,c(2:4,13:23)],sum)
+rep1 = agg[,c(seq(4,13,2),14)]
+rep2 = agg[,c(seq(5,13,2),14)]
 ave = cbind(agg[,1:3],(rep1+rep2)/2)
 
-colnames(ave) = c("chr","start","end",paste0(tf,c("_D00","_D02","_D05","_D15")))
+colnames(ave) = c("chr","start","end",paste0(tf,c("_D00","_D02","_D05","_D07","_D15","_D80")))
 write.table(ave,paste0("overlap_anchors_to_features/anchor.",tf,".norm_counts.txt"),quote=F,sep='\t',row.names=F)
 
 

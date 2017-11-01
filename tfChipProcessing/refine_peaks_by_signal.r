@@ -3,8 +3,8 @@ setwd("../../data/tfChIPseq")
 peaks = data.frame(fread("merged_peaks/CTCF_merged_peaks.overlap_stage.txt"))
 rpkm = data.frame(fread("counts/CTCF.rpkm"))
 
-true = data.frame(rpkm=rpkm[,-c(1:6)][peaks[,rep(5:8,each=2)]==TRUE],class="true")
-false = data.frame(rpkm=rpkm[,-c(1:6)][peaks[,rep(5:8,each=2)]==FALSE],class="false")
+true = data.frame(rpkm=rpkm[,-c(1:6)][peaks[,c(rep(5:9,each=2),10)]==TRUE],class="true")
+false = data.frame(rpkm=rpkm[,-c(1:6)][peaks[,c(rep(5:8,each=2),10)]==FALSE],class="false")
 dat = rbind(true,false)
 
 cutoff = quantile(true$rpkm,0.05)
@@ -14,7 +14,11 @@ quantile(false$rpkm,0.5)
 #  geom_vline(xintercept=cutoff)
 
 peaks2 = rpkm[,-c(1:6)]>cutoff
-peaks_rep = peaks2[,seq(1,8,2)] * peaks2[,seq(2,8,2)] #>0
+
+write.table(cbind(peaks[,1:4],peaks2),"merged_peaks/CTCF_merged_peaks.peaks_by_rpkm.txt", row.names=F,quote=F,sep='\t')
+
+#peaks_rpkm = (rpkm[,c(seq(1,10,2),11)+6] + rpkm[,c(seq(2,10,2),11)+6] )/2 > cutoff
+#peaks_rep = peaks2[,c(seq(1,10,2),11)] + peaks2[,c(seq(2,10,2),11)] >0
 
 # combined counts and peak_rep 
 combined = cbind(rpkm,peaks_rep)

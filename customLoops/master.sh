@@ -1,10 +1,12 @@
 pushd ../../analysis/customLoops/
 mkdir -p edgeR loops anchors figures figures/cluster_with_names/ clusters/ overlap_loopdomain_to_features/ APA_plots/ loop_control_distance_matched/
+## merge loops across stages. 
 awk -v OFS="\t" '{if(NR==1)print $0,"sample"}'  loops_by_sample/D00_HiC_Rep1.loops > combined_loops.raw.sorted.txt
 for file in $(ls loops_by_sample/D??_HiC_Rep?.loops); do
   awk -v OFS="\t" -v name=${file/loops_by_sample\/} '{ if(NR>1) print $0,name}' $file
   done |sort --parallel=4 -k1,1 -k2,2n -k3,3n - >> combined_loops.raw.sorted.txt
 popd
+Rscript merge_loops_across_stages.r
 
 bash straw_extractInteractions.sh
 ## call dynamic loops

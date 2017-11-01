@@ -1,5 +1,5 @@
-setwd("/mnt/silencer2/home/yanxiazh/projects/cardiac_dev/analysis/tads")
-a=read.delim("insulation_data/combined.matrix",header=F)
+setwd("../../analysis/di_tads")
+a=read.delim("insulation_data/combined.matrix")
 
 dat = a[,-c(1:3)]
 names = sub(".bedgraph","",list.files(pattern="bedgraph",path="insulation_data"))

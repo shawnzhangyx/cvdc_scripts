@@ -1,4 +1,4 @@
-setwd("/mnt/silencer2/home/yanxiazh/projects/cardiac_dev/data/tfChIPseq/counts")
+setwd("../../data/tfChIPseq/counts")
 options(digits=2)
 options(nsmall=2)
 

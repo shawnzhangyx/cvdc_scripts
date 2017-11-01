@@ -27,17 +27,17 @@ a2 = a2[od,]
 lp = loop[,seq(2,13,2)] + loop[,seq(3,13,2)]
 lp = sweep(lp,1,apply(lp,1,max),'/')[od,]
 
-mat1 = a1[,4:37]
-for (i in seq(1,25,6)){
+mat1 = a1[,4:39]
+for (i in seq(1,31,6)){
 mat1[,i:(i+5)] = sweep(mat1[,i:(i+5)],1,apply(mat1[,i:(i+5)],1,max),'/')
 }
-mat1[,31:34] = sweep(mat1[,31:34],1,apply(mat1[,31:34],1,max),'/')
+#mat1[,31:34] = sweep(mat1[,31:34],1,apply(mat1[,31:34],1,max),'/')
 mat1[is.na(mat1)] = 0
-mat2 = a2[,4:37]
-for (i in seq(1,25,6)){
+mat2 = a2[,4:39]
+for (i in seq(1,31,6)){
 mat2[,i:(i+5)] = sweep(mat2[,i:(i+5)],1,apply(mat2[,i:(i+5)],1,max),'/')
 }
-mat2[,31:34] = sweep(mat2[,31:34],1,apply(mat2[,31:34],1,max),'/')
+#mat2[,31:34] = sweep(mat2[,31:34],1,apply(mat2[,31:34],1,max),'/')
 mat2[is.na(mat2)] = 0
 
 colnames(lp) = sub("(D..)_.","HiC_\\1",colnames(lp))
@@ -50,13 +50,12 @@ melted = melt(as.matrix(comb))
 
 pdf(paste0("figures/cluster1-5.heatmap.pdf"),height=7,width=12)
 ggplot(melted,aes(x=Var2,y=Var1,fill=value))+ geom_tile() + 
-#  scale_fill_gradient2(high="red",mid="lightyellow") +
   scale_fill_gradientn(colors=#c("#fff5f0","#fcbba1","#a50f15"), 
   c("white","pink","red"),
     values=c(0,0.7,1)) +
-  geom_vline(xintercept=c(seq(6,36,6),40,seq(46,70,6))+0.5)+
-  annotate("text",x=c(seq(0,36,6),40,seq(46,70,6))+0.6,y=nrow(comb)*1.02,
-    label=c("HiC",rep(c("H3K4me3","H3K27me3","H3K27ac","H3K4me1","RNAseq","CTCF"),2)),
+  geom_vline(xintercept=c(seq(6,72,6)+0.5)) +  
+  annotate("text",x=c(seq(0,72,6))+0.6,y=nrow(comb)*1.02,
+label=c("HiC",rep(c("H3K4me3","H3K27me3","H3K27ac","H3K4me1","RNAseq","CTCF"),2)),
     hjust = 0)+
   xlab("Marks") + ylab("Loops")+
   theme_minimal() + 
