@@ -4,7 +4,8 @@ mkdir -p $outdir
 ## intersect with all merged features
 chipdir=../../data/chipseq/merged_peaks
 
-for name in {D00,D80,gain}.{within,pre,pos}; do 
+#for name in {D00,D80,gain}.{within,pre,pos}; do 
+for name in {D00,D80}.unique; do
 
 echo -e "chr\tstart\tend\tCTCF\tATAC\tH3K4me1\tH3K4me3\tH3K27me3\tH3K27ac\tTSS" |tee \
 $outdir/${name}.all_features.txt

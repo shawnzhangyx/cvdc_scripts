@@ -1,9 +1,7 @@
 setwd("../../analysis/tads")
 
 a= data.frame(fread("combined_tads.raw.sorted.txt"))
-
 a = a[order(-a$score),]
-
 combined = list()
 while ( nrow(a)>0){
 tad = a[1,]
@@ -25,6 +23,7 @@ tads$chr2 = paste0("chr",tads$chr2)
 
 
 write.table(tads,"combined_tads.uniq.txt",row.names=F,sep='\t',quote=F)
+## the ones called in at least two sample replicates
 write.table(tads[which(tads$num_calls>1),],"combined_tads.uniq.gt1.txt",row.names=F,sep='\t',quote=F)
 
 

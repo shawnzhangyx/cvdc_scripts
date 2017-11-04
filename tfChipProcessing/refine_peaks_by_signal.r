@@ -4,7 +4,7 @@ peaks = data.frame(fread("merged_peaks/CTCF_merged_peaks.overlap_stage.txt"))
 rpkm = data.frame(fread("counts/CTCF.rpkm"))
 
 true = data.frame(rpkm=rpkm[,-c(1:6)][peaks[,c(rep(5:9,each=2),10)]==TRUE],class="true")
-false = data.frame(rpkm=rpkm[,-c(1:6)][peaks[,c(rep(5:8,each=2),10)]==FALSE],class="false")
+false = data.frame(rpkm=rpkm[,-c(1:6)][peaks[,c(rep(5:9,each=2),10)]==FALSE],class="false")
 dat = rbind(true,false)
 
 cutoff = quantile(true$rpkm,0.05)
