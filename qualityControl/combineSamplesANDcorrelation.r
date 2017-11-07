@@ -1,4 +1,4 @@
-setwd("/mnt/silencer2/home/yanxiazh/projects/cardiac_dev/analysis/qualityControl/contactMatrix_lt5m")
+setwd("../../analysis/qualityControl/contactMatrix_lt5m")
 
 files = list.files(pattern="txt")
 
@@ -16,11 +16,11 @@ for (i in seq(1,12,2) ){
   dlist[[length(dlist)+1]] = out
   }
 
-pdf("correlation_plot.pdf")
+pdf("correlation_plot.pdf",height=5,width=5)
 for (i in 1:6){
   out = dlist[[i]]
   cor = cor.test(out[,2],out[,3],method="spearman")
-    smoothScatter(log2(out[,2]),log2(out[,3]), main=paste("Cor =",cor$estimate),
+    smoothScatter(log2(out[,2]),log2(out[,3]), main=paste("Cor =",format(cor$estimate,digits=2)),
     xlab = sub("_100000.txt","",files[i*2-1]),
     ylab = sub("_100000.txt","",files[i*2])
     )

@@ -1,6 +1,5 @@
 setwd("../../analysis/tads")
 library(stringr)
-
 a= read.delim("combined_tads.uniq.gt1.txt")
 # remove unreplicated tads. 
 #a = a[which(a$num_rep>1),]
@@ -18,16 +17,21 @@ c=read.delim("arrowhead_test_list/combined_tads.uniq.score.txt")
 c$name = paste(c$chr,c$x1,c$x2)
 c=c[match(a$name,c$name),]
 
-
 ave = (c[,seq(4,15,2)]+ c[,seq(5,15,2)])/2
 diff = abs(c[,seq(4,15,2)]- c[,seq(5,15,2)])
-
-#plot(ave[,1],diff[,1])
 diff_all = unlist(diff)
-
-d02.d00 = ave[,2]-ave[,1]
-
 grp_diff = NULL
+
+true = data.frame(score=c[,-c(1:3,16)][a[,c(rep(16:21,each=2))]==TRUE],class="true")
+false = data.frame(score=c[,-c(1:3,16)][a[,c(rep(16:21,each=2))]==FALSE],class="false")
+dat = rbind(true,false)
+
+cutoff = quantile(true$score,0.05,na.rm=T)
+quantile(false$score,0.5,na.rm=T)
+
+#ggplot(dat, aes(score, fill = class)) + geom_histogram(alpha = 0.2)  +
+#  geom_vline(xintercept=cutoff)
+
 
 for (i in 1:nrow(a)){
   if ( a$num_stages[i] == 6){ grp_diff[i] = 0 } 
@@ -39,20 +43,39 @@ for (i in 1:nrow(a)){
     grp_diff[i] = upper-lower
     }
     }
-
 out= cbind(a[,c(1:3,16:21)],c[,4:15],grp_diff)
 out$sig = out$grp_diff> quantile(diff_all,0.999)
 
 sig = out[which(out$sig==TRUE),]
 
 states = sig[,c(4:9)]
-states = states[ order(#rowSums(states),
+states.od = states[ order(#rowSums(states),
   states$D00,states$D02,states$D05,states$D07,states$D15,states$D80),]
-rownames(states) = 1:nrow(states)
-melted = melt(as.matrix(states))
-pdf("dynamic_tad_changes.pdf")
+rownames(states.od) = 1:nrow(states)
+melted = melt(as.matrix(states.od))
+## hierarchical clustering. 
+scores = (sig[,seq(10,21,2)] + sig[,seq(11,21,2)])/2
+cor = cor(t(scores))
+hc = hclust(as.dist(1-cor))
+scores.hc = scores[hc$order,]
+scores.od = scores[order(#rowSums(states),
+  states$D00,states$D02,states$D05,states$D07,states$D15,states$D80),]
+
+rownames(scores.od) = 1:nrow(scores.od)
+scmelted = melt(as.matrix(scores.od))
+rownames(scores.hc) = 1:nrow(scores.hc)
+hcmelted = melt(as.matrix(scores.hc))
+
+pdf("figures/dynamic_tad_changes.pdf",height=5,width=5)
 ggplot(melted) + geom_tile(aes(x=Var2,y=Var1,fill=value)) + 
-scale_fill_manual(values=c("white","black"))
+    scale_fill_manual(values=c("white","black")) + 
+    theme_minimal()
+ggplot(scmelted, aes(x=substr(Var2,1,3),y=Var1,fill=value)) +geom_tile() +
+    scale_fill_gradientn(colors=cbbPalette[c(6,9,7)]) +
+    theme_minimal()
+ggplot(hcmelted, aes(x=substr(Var2,1,3),y=Var1,fill=value)) +geom_tile() +
+    scale_fill_gradientn(colors=cbbPalette[c(6,9,7)]) +
+    theme_minimal()
 dev.off()
 
 sig = sig[order(-sig$grp_diff),]

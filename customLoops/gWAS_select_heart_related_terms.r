@@ -19,10 +19,11 @@ heart_traits = c(
 
 b = a[which(a$V6 %in% heart_traits),]
 
-pdf("../figures/heartGWAS_enrichment.pdf",width=3,height=5)
+pdf("../figures/heartGWAS_enrichment.pdf",width=5,height=3)
 ggplot(b, aes(x=V6,y=-log10(pval))) + geom_bar(stat="identity",fill=cbbPalette[6]) + 
   geom_hline(yintercept=-log10(0.05),linetype="dashed") + 
-  theme_bw() + 
-  theme( axis.text.x = element_text(angle = 45, hjust = 1))
+  coord_flip() +
+  theme_bw() + xlab("") + ylab("-log10 pvalue")
+#  theme( axis.text.x = element_text(angle = 45, hjust = 1))
 dev.off()
 
