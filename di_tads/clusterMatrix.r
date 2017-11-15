@@ -17,19 +17,20 @@ for (i in 1:(ncol(dat)-1)){
 rownames(mat) = colnames(mat) = names
 dist = as.dist(1-mat)
 
-#hclust(dist)
-
+hc = hclust(dist,method="complete")
+hc$labels=paste(rep(c("D00","D02","D05","D07","D15","D80"),each=2),rep(c("Rep1","Rep2"),6),sep='_')
+hc$order = 1:12
 mat.h = mat+t(mat)
 for (i in 1:nrow(mat)) mat.h[i,i] = 1
 
 library(gplots)
 
-pdf("insulation_data/insulation_score_clustering.pdf")
-plot(hclust(dist))
-heatmap.2(mat.h,Colv=FALSE,Rowv=FALSE,dendrogram="none",
-    cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F,
-    col=colorRampPalette(c("lightyellow","red"))
-      )
+pdf("insulation_data/insulation_score_clustering.pdf",height=5,width=5)
+plot(hc)
+#heatmap.2(mat.h,Colv=FALSE,Rowv=FALSE,dendrogram="none",
+#    cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F,
+#    col=colorRampPalette(c("lightyellow","red"))
+#      )
 dev.off()
 
 

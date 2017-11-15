@@ -42,19 +42,19 @@ se = aggregate(prob~dist_log2+name,combined_log2,sd)
 out = merge(ave,se,by=c("dist_log2","name"))
 colnames(out) = c("dist_log2","name","mean","se") 
 
-breaks = 13:27
+breaks = seq(13,27,2)#13:27
 labels = ifelse (2**breaks > 1e6, paste0(round(2**breaks/1e6,1),"M"), 
            ifelse(2**breaks> 1e3, paste0(round(2**breaks/1e3,1),"K")))
 
-pdf("distance_prob_log2.pdf",height=6,width=10)
-ggplot(out, aes(dist_log2,color=name,y=mean)) + geom_line(size=2) +geom_point() + 
+pdf("distance_prob_log2.pdf",height=4,width=6)
+ggplot(out, aes(dist_log2,color=name,y=mean)) + geom_line(size=1.2) +geom_point() + 
   scale_color_brewer(palette="RdBu",direction=-1) +
   geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2)+
   ylab("Fraction") +
   scale_x_continuous("distance(log2)", breaks=breaks,
   labels=labels ) +
-  theme_bw() + theme(legend.justification = c("right", "top"),  
-                    legend.position = c(.95, .95) )
+  theme_bw() #+ theme(legend.justification = c("right", "top"),  
+               #     legend.position = c(.95, .95) )
 dev.off()
 
 

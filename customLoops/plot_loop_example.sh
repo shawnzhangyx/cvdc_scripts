@@ -11,5 +11,7 @@ Rscript ../utility/plot_loop_triangular.r 20 6560000 6740000 ../../analysis/cust
 #HAND2
 Rscript ../utility/plot_loop_triangular.r 4 174450000 174590000 ../../analysis/customLoops/figures/loop_examples
 #SCN5A
-Rscript ../utility/plot_loop_traingular.r 3 38550000 38680000 ../../analysis/customLoops/figures/loop_examples
+Rscript ../utility/plot_loop_triangular.r 3 38550000 38680000 ../../analysis/customLoops/figures/loop_examples
+#NOS1AP
+Rscript ../utility/plot_loop_triangular.r 1 162010000 162350000 ../../analysis/customLoops/figures/loop_examples
 

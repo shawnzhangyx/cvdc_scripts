@@ -35,3 +35,6 @@ plotProfile -m D00.H3K27ac.matrix.mat.gz \
               --numPlotsPerRow 4 \
               --plotTitle "H3K27ac data profile"
 
+
+#### RNA-seq 
+

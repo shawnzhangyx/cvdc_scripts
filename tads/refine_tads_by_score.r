@@ -66,13 +66,15 @@ scmelted = melt(as.matrix(scores.od))
 rownames(scores.hc) = 1:nrow(scores.hc)
 hcmelted = melt(as.matrix(scores.hc))
 
-pdf("figures/dynamic_tad_changes.pdf",height=5,width=5)
+pdf("figures/dynamic_tad_changes.pdf",height=4,width=4)
 ggplot(melted) + geom_tile(aes(x=Var2,y=Var1,fill=value)) + 
     scale_fill_manual(values=c("white","black")) + 
     theme_minimal()
 ggplot(scmelted, aes(x=substr(Var2,1,3),y=Var1,fill=value)) +geom_tile() +
-    scale_fill_gradientn(colors=cbbPalette[c(6,9,7)]) +
-    theme_minimal()
+    scale_fill_gradientn(colors=cbbPalette[c(6,9,7)],name='corner\nscore') +
+    theme_minimal() + xlab("") + ylab("TADs") +
+    theme(legend.justification = c("right", "top"))
+
 ggplot(hcmelted, aes(x=substr(Var2,1,3),y=Var1,fill=value)) +geom_tile() +
     scale_fill_gradientn(colors=cbbPalette[c(6,9,7)]) +
     theme_minimal()
