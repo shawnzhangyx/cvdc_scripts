@@ -17,6 +17,11 @@ diff = diff[order(diff$V5,diff$V6,diff$V7,diff$V8,diff$V9,diff$V10),]
 diff$V4 = factor(diff$V4,levels=diff$V4)
 melted = melt(diff[,4:10],id.vars="V4")
 
-ggplot(melted,aes(x=variable,y=V4,fill=value)) + geom_tile()
+#ggplot(melted,aes(x=variable,y=V4,fill=value)) + geom_tile()
 
+
+a[which(a$bonf>0.05),5:10] = TRUE
+a[,5:10] = (a[,5:10] *1)
+
+write.table(a[,1:10], "merged_peaks/CTCF_merged_peaks.overlap_stage.edger.txt",row.names=F,col.names=F,quote=F,sep='\t')
 

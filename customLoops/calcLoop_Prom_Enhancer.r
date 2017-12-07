@@ -41,6 +41,13 @@ pdf("figures/loop_type_PE.pdf",width=5,height=5)
 ggplot(all.melted, aes(x=type,y=Freq)) + geom_bar(stat="identity",fill=cbbPalette[6],width=0.5,color='black') + 
   theme_bw() + ylab("Fraction")
 
+ggplot(melted, aes(fill=factor(type),x=Var1,y=value)) +
+  geom_bar(stat='identity',position='stack',color='black') +
+  ylab("Fraction") +
+  scale_fill_manual(values=cbbPalette[c(4,5,6)]) + ylim(0,1) +
+#  scale_fill_brewer(palette="RdBu",name="Cluster") +
+  theme_bw()
+
 ggplot(melted, aes(fill=factor(Var1),x=type,y=value)) + 
   geom_bar(stat='identity',position='dodge',color='black') + 
   ylab("Fraction") + 

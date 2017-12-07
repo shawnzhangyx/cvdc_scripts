@@ -44,21 +44,24 @@ km$cluster = order(c2)[km$cluster]
 norm.o = norm[order(-km$cluster),]
 rownames(norm.o) = 1:nrow(norm.o)
 norm.o = (norm.o[,seq(1,12,2)]+norm.o[,seq(2,12,2)])/2
-
+colnames(norm.o) = substr(colnames(norm.o),1,3)
 melted =melt(as.matrix(norm.o))
 size = rev(table(km$cluster))
 inc = 0
 for (i in 1:length(size))inc[i+1] = inc[i]+ size[i]
 
 pdf("figures/dynamic_loops.kmeans_K5.pdf",width=4,height=4)
-#heatmap.2(km$centers,Colv=FALSE,Rowv=FALSE,
-#dendrogram="none",cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F,
-#col=colorRampPalette(c("lightyellow","red"))
-#)
-ggplot(melted,aes(x=Var2,y=Var1,fill=value)) + geom_tile() + 
-  scale_fill_gradientn(colors=c("white","red","red"),values=c(0,0.7,1)) +
-  geom_hline(yintercept=inc)+ theme_minimal() +
-  theme( axis.text.x = element_text(angle = 90, hjust = 1))
+ggplot() + geom_tile(data=melted,aes(x=Var2,y=Var1,fill=value)) + 
+  scale_fill_gradientn(colors=c("white","red","red"),values=c(0,0.7,1),name="") +
+  geom_segment(aes(x=0.5,y=inc,xend=6.5,yend=inc),linetype="dashed") + 
+  geom_rect(aes(xmin=0.5,xmax=6.5,ymin=0,ymax=inc[length(inc)]),size=1,fill=NA,color='black') + 
+  scale_y_continuous(breaks=inc[-1]-200,labels=size) + 
+  theme_minimal() +
+  xlab("") + ylab("") + 
+  theme( axis.text.x = element_text(angle = 90, hjust = 1),
+#         axis.text.y = element_text(breaks=inc[-1],values=size),
+  legend.justification = c("right", "top")
+  )
 dev.off()
 
 d$cluster = km$cluster

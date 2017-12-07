@@ -60,6 +60,8 @@ label=c("HiC",rep(c("H3K4me3","H3K27me3","H3K27ac","H3K4me1","RNAseq","CTCF"),2)
   xlab("Marks") + ylab("Loops")+
   theme_minimal() + 
   theme( 
-  axis.text.x = element_text(angle = 90, hjust = 1))
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    legend.justification="top")
 dev.off()
 

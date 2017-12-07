@@ -66,18 +66,24 @@ scmelted = melt(as.matrix(scores.od))
 rownames(scores.hc) = 1:nrow(scores.hc)
 hcmelted = melt(as.matrix(scores.hc))
 
-pdf("figures/dynamic_tad_changes.pdf",height=4,width=4)
-ggplot(melted) + geom_tile(aes(x=Var2,y=Var1,fill=value)) + 
-    scale_fill_manual(values=c("white","black")) + 
-    theme_minimal()
+pdf("figures/dynamic_tad_changes.pdf",height=3.5,width=3)
+#ggplot(melted) + geom_tile(aes(x=Var2,y=Var1,fill=value)) + 
+#    scale_fill_manual(values=c("white","black")) + 
+#    theme_minimal()
 ggplot(scmelted, aes(x=substr(Var2,1,3),y=Var1,fill=value)) +geom_tile() +
-    scale_fill_gradientn(colors=cbbPalette[c(6,9,7)],name='corner\nscore') +
-    theme_minimal() + xlab("") + ylab("TADs") +
-    theme(legend.justification = c("right", "top"))
+#    scale_fill_gradientn(colors=cbbPalette[c(6,9,7)],name='corner\nscore') +
+    scale_fill_gradientn(colors=c("#2c7fb8","white","#de2d26"),name='corner\nscore') +
+    theme_classic() + xlab("") + ylab("") +
+    theme(
+    #legend.justification = c("right", "top")
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(angle=90,size=12,face="bold",vjust=0.5),
+    legend.position="top"
+    )
 
-ggplot(hcmelted, aes(x=substr(Var2,1,3),y=Var1,fill=value)) +geom_tile() +
-    scale_fill_gradientn(colors=cbbPalette[c(6,9,7)]) +
-    theme_minimal()
+#ggplot(hcmelted, aes(x=substr(Var2,1,3),y=Var1,fill=value)) +geom_tile() +
+#    scale_fill_gradientn(colors=cbbPalette[c(6,9,7)]) +
+#    theme_minimal()
 dev.off()
 
 sig = sig[order(-sig$grp_diff),]

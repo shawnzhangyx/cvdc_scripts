@@ -14,7 +14,23 @@ t = table(a$tad,a$cluster)
 p = sweep(t,2,colSums(t),'/')
 
 library(gplots)
-heatmap.2(as.matrix(p),Colv=FALSE,Rowv=FALSE,
-dendrogram="none",cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F)
+#heatmap.2(as.matrix(p),Colv=FALSE,Rowv=FALSE,
+#dendrogram="none",cexRow=1,cexCol=1,notecol='black',margins=c(5,5),tracecol=F)
+
+rownames(p) = c("TAD-boundary","inter-TAD","intra-TAD")
+
+melted = melt(p)
+melted$Var1 = factor(melted$Var1,levels=c("inter-TAD","TAD-boundary","intra-TAD"))
+
+pdf("figures/loop_type_to_TAD.pdf",height=5,width=5)
+ggplot(melted, aes(x=Var2,fill=Var1,y=value)) +
+  geom_bar(stat="identity",position="stack") +
+  scale_fill_brewer(palette="Blues") + 
+  theme_bw()
+dev.off()
+
 
 write.table(a[,c(1,25)],"loop_to_tad/loops.tad.txt",row.names=F,sep='\t',quote=F)
+
+
+

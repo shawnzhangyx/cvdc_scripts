@@ -1,11 +1,14 @@
 setwd("../../analysis/tads")
 a=read.delim("combined_tads.uniq.score.sig.diff.txt")
+b=read.delim("combined_tads.uniq.score.diff.txt")
+
+stable = b[which(b$sig == FALSE),]
 
 d00 = a[which(a$D00==TRUE & rowSums(a[,4:9])==1),]
 d80 = a[which(a$D80==FALSE & rowSums(a[,4:9])==5),]
 gain = a[which(a$D00==FALSE & a$D80==TRUE),]
 
-
+write.table(stable[,1:3],"stage_specific_tads/stable.unique.tads",row.names=F,col.names=F,sep='\t',quote=F)
 write.table(d00[,1:3],"stage_specific_tads/D00.unique.tads",row.names=F,col.names=F,sep='\t',quote=F)
 write.table(d80[,1:3],"stage_specific_tads/D80.unique.tads",row.names=F,col.names=F,sep='\t',quote=F)
 write.table(gain[,1:3],"stage_specific_tads/gain.unique.tads",row.names=F,col.names=F,sep='\t',quote=F)

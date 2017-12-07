@@ -19,7 +19,7 @@ Rscript merge_tads_across_stages2.r
 awk -v FS="\t" -v OFS="\t" '{if (NR>1) print $1,$2 }' combined_tads.uniq.gt1.txt > anchors/anchor1.bed
 awk -v FS="\t" -v OFS="\t" '{if (NR>1) print $1,$3 }' combined_tads.uniq.gt1.txt > anchors/anchor2.bed
 cat anchors/anchor1.bed anchors/anchor2.bed |sort -u > anchors/anchors.uniq.bed
-awk -v OFS="\t" '{print $1,$2-20000,$2+20000}' anchors/anchors.uniq.bed > anchors/anchors.uniq.40k.bed
+awk -v OFS="\t" '{print $1,$2-25000,$2+25000}' anchors/anchors.uniq.bed > anchors/anchors.uniq.50k.bed
 
 # refine TAD by insulation
 #bash -x straw_extractInteraction.sh
