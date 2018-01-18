@@ -14,6 +14,7 @@ tss = tss[which(tss$V7 %in% rpkm$Annotation.Divergence[which(rpkm$gt10==1)]),]
 tss.agg = aggregate(V7~V1+V2+V3,tss, function(vec){length(which(vec!="."))})
 
 a2tss = merge(anchors,tss.agg, by=c("V1","V2","V3"),all.x=T)
+a2tss_sum = aggregate(V7~V4,a2tss, function(vec){ length(which(vec>0))/length(vec) })
 
 # ggplot(a2tss,aes(factor(V4),V7>0)) +geom_bar()
 ggplot(a2tss,aes(x=V4,fill=V7>0)) +geom_bar(position="fill",stat="count")
@@ -44,7 +45,7 @@ tfs = read.delim("../../data/annotation/human_tfs/nrg2538-s3.txt",skip=11)
 tfs = tfs[which(tfs$Class %in% c("a","b")),]
 tfs = tss[which(tss$V7 %in% tfs$HGNC.symbol),]
 tfs.agg = aggregate(V7~V1+V2+V3,tfs, function(vec){length(which(vec!="."))})
-a2tfs = merge(anchors,tss.agg, by=c("V1","V2","V3"),all.x=T)
+a2tfs = merge(anchors,tfs.agg, by=c("V1","V2","V3"),all.x=T)
 a2tfs$V7[is.na(a2tfs$V7)]=0
 a2tf_sum = aggregate(V7~V4,a2tfs, function(vec){ length(which(vec>0))/length(vec) })
 

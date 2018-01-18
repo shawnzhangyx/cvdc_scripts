@@ -33,21 +33,27 @@ for ( name in c("stable","D00","D80","gain")) {
 
 }
 
-melted1 = melt(as.matrix(data.frame(lapply(boundary_ctcf_list,function(tab){ tab[2,]/colSums(tab) }))))
-melted2 = melt(as.matrix(data.frame(lapply(boundary_ctcf_both_list,function(tab){ tab[2,]/colSums(tab) }))))
+mat1 = as.matrix(data.frame(lapply(boundary_ctcf_list,function(tab){ tab[2,]/colSums(tab) })))
+mat2 = as.matrix(data.frame(lapply(boundary_ctcf_both_list,function(tab){ tab[2,]/colSums(tab) })))
+colnames(mat1) = colnames(mat2) = c("stable","ES+","CM-","CM+")
+melted1 = melt(mat1)
+melted2 = melt(mat2)
 
 #library(gridExtra)
-pdf("figures/TAD.boundary.CTCF.pdf",height=4,width=4)
+pdf("figures/TAD.boundary.CTCF.pdf",height=4,width=3.5)
 ggplot(melted1, aes(x=Var2, y=value,fill=Var1)) +
   geom_bar(stat="identity",position="dodge",color='gray20',size=0.1) +
-  scale_fill_brewer(palette="Blues",direction=-1)+ ylim(0,1) +
+  scale_fill_brewer(palette="RdBu",direction=-1)+ ylim(0,1) +
   xlab("") + ylab("Fraction") + ggtitle("TAD boundary marked by CTCF") +
-  theme_bw()
+  theme_bw() + 
+  theme( legend.text = element_text(size=5),
+    axis.text.x = element_text(size=12,face="bold")
+  )
 
-ggplot(melted2, aes(x=Var2, y=value,fill=Var1)) +
-  geom_bar(stat="identity",position="dodge",color='gray20',size=0.1) +
-  scale_fill_brewer(palette="Blues",direction=-1) + ylim(0,1)+ 
-  xlab("") + ylab("Fraction") + ggtitle("Both TAD boundary marked by CTCF") +
-  theme_bw()
+#ggplot(melted2, aes(x=Var2, y=value,fill=Var1)) +
+#  geom_bar(stat="identity",position="dodge",color='gray20',size=0.1) +
+#  scale_fill_brewer(palette="Blues",direction=-1) + ylim(0,1)+ 
+#  xlab("") + ylab("Fraction") + ggtitle("Both TAD boundary marked by CTCF") +
+# theme_bw()
 dev.off()
 

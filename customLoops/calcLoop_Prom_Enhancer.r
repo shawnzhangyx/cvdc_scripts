@@ -1,6 +1,15 @@
 setwd("../../analysis/customLoops")
 
 loop=read.delim("loops/loops.cpb.logFC.edger.final.cluster.txt")
+stage = read.delim("combined_loops.uniq.gt1.txt")
+stage$D00 = grepl("D00",stage$samples)
+stage$D02 = grepl("D02",stage$samples)
+stage$D05 = grepl("D05",stage$samples)
+stage$D07 = grepl("D07",stage$samples)
+stage$D15 = grepl("D15",stage$samples)
+stage$D80 = grepl("D80",stage$samples)
+
+
 loop$a1 = sub("(.*) (.*) (.*)","\\1 \\2",loop$name)
 loop$a2 = sub("(.*) (.*) (.*)","\\1 \\3",loop$name)
 
@@ -37,7 +46,16 @@ all.prop = (table(type)/sum(table(type))) [c(1,2,4)]
 all.melted = data.frame(all.prop)
 melted = melt(prop)
 
-pdf("figures/loop_type_PE.pdf",width=5,height=5)
+type.by.stage = lapply(14:19, function(i){ table(type[which(stage[,i]==TRUE)]) })
+type.by.stage = do.call(rbind, type.by.stage)
+prop2 = sweep(type.by.stage,1,rowSums(type.by.stage),'/')[,c(1,2,4)]
+rownames(prop2) = c("D00","D02","D05","D07","D15","D80")
+all.prop = (table(type)/sum(table(type))) [c(1,2,4)]
+
+melted2 = melt(prop2)
+
+
+pdf("figures/loop_type_PE.pdf",width=4,height=4)
 ggplot(all.melted, aes(x=type,y=Freq)) + geom_bar(stat="identity",fill=cbbPalette[6],width=0.5,color='black') + 
   theme_bw() + ylab("Fraction")
 
@@ -48,24 +66,20 @@ ggplot(melted, aes(fill=factor(type),x=Var1,y=value)) +
 #  scale_fill_brewer(palette="RdBu",name="Cluster") +
   theme_bw()
 
-ggplot(melted, aes(fill=factor(Var1),x=type,y=value)) + 
-  geom_bar(stat='identity',position='dodge',color='black') + 
-  ylab("Fraction") + 
-  scale_fill_brewer(palette="RdBu",name="Cluster") +
-#  scale_fill_manual(values=cbbPalette[c(2,3,4)])
+
+ggplot(melted2, aes(fill=factor(Var2),x=Var1,y=value)) +
+  geom_bar(stat='identity',position='stack',color='black') +
+  ylab("Fraction") +
+  scale_fill_manual(values=cbbPalette[c(4,5,6)]) + ylim(0,1) +
+#  scale_fill_brewer(palette="RdBu",name="Cluster") +
   theme_bw()
+
+
 dev.off()
-
-#a1$status="Unknown"
-#a1$status[which(a1$H3K4me3>0 & a1$H3K27ac > 0)] = "Prom.Active" 
-#a1$status[which(a1$H3K4me3>0 & a1$H3K27ac ==0)] = "Prom.Inactive"
-#a1$status[which(a1$H3K4me3==0 & a1$H3K4me1 > 0 & a1$H3K27ac > 0)] = "Enh.Active"
-#a1$status[which(a1$H3K4me3==0 & a1$H3K4me1 > 0 & a1$H3K27ac == 0)] = "Enh.Primed"
-
 
 > table(a1$H3K4me3>0, a1$H3K27ac>0)
 
         FALSE TRUE
-          FALSE  3264 3637
-            TRUE   1021 6293
+        FALSE  3264 3637
+        TRUE   1021 6293
 
