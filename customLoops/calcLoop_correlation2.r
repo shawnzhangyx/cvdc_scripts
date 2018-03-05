@@ -89,6 +89,20 @@ combined.stats$type2 = ifelse(combined.stats$type=="Control", "Control",
 combined.stats$type2 = factor(combined.stats$type2,levels=c("Loop-Dynamic","Loop-Static",
   "Control"))
 
+wilcox = NULL
+#mark="H3K27ac"
+for ( mark in c("H3K27ac","H3K4me1","H3K27me3")) {
+p1 = wilcox.test(combined.stats$cor[which(combined.stats$mark== mark & combined.stats$type2=="Loop-Dynamic")], combined.stats$cor[which(combined.stats$mark==mark & combined.stats$type2=="Control")])$p.value
+p2 = wilcox.test(combined.stats$cor[which(combined.stats$mark==mark & combined.stats$type2=="Loop-Dynamic")], combined.stats$cor[which(combined.stats$mark==mark & combined.stats$type2=="Loop-Static")])$p.value
+p3 = wilcox.test(combined.stats$cor[which(combined.stats$mark== mark & combined.stats$type2=="Loop-Static")], combined.stats$cor[which(combined.stats$mark==mark & combined.stats$type2=="Control")])$p.value
+wilcox = c(wilcox,p1,p2,p3)
+}
+#[1] 4.749940e-41 8.706426e-24 4.060167e-10 
+#[4] 8.146803e-27 4.533838e-14 9.925581e-09 
+#[7] 4.739315e-03 3.396566e-01 2.334205e-03
+#write.table(wilcox,
+
+
 pdf("figures/anchor.mark.correlation.pdf",height=3,width=6)
 ggplot(combined.stats, aes(x=mark, fill=type2, y=cor)) + 
   geom_boxplot(position=position_dodge(0.6),width=0.5) + 

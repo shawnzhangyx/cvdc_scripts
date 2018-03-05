@@ -1,8 +1,9 @@
 setwd("../../analysis/tads")
 
-for ( stage in c("D00","D80","gain")){
-
-for ( pos in c(".within",".pre",".pos")){
+#for ( stage in c("D00","D80","gain")){
+for ( stage in c("D00","D80")) {
+for ( pos in c(".unique")) {
+#for ( pos in c(".within",".pre",".pos")){
 name = paste0(stage,pos)
 
 ## histone marks

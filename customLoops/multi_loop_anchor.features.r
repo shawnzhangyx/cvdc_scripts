@@ -16,8 +16,11 @@ tss.agg = aggregate(V7~V1+V2+V3,tss, function(vec){length(which(vec!="."))})
 a2tss = merge(anchors,tss.agg, by=c("V1","V2","V3"),all.x=T)
 a2tss_sum = aggregate(V7~V4,a2tss, function(vec){ length(which(vec>0))/length(vec) })
 
+
 # ggplot(a2tss,aes(factor(V4),V7>0)) +geom_bar()
+pdf("figures/multiloop_anchor/anchor_loop_vs_TSS.pdf",height=4,width=4)
 ggplot(a2tss,aes(x=V4,fill=V7>0)) +geom_bar(position="fill",stat="count")
+dev.off()
 
 
 ## overlap with CTCF. 
@@ -54,6 +57,26 @@ ggplot(a2tf_sum, aes(V4,V7)) + geom_bar(stat="identity",fill=cbbPalette[6]) +
     xlab("Anchor Degree") + ylab("Fraction of Anchor with TF") +
     theme_bw()
 dev.off()
+
+## overlap with housekeeping genes. 
+anchors = read.table("anchors/anchors.uniq.30k.num_loops.red.txt")
+#merge anchor degreee greater than 5.
+anchors$V4[anchors$V4>=5]="5+"
+# number of genes.
+tss = read.table("overlap_anchors_to_features/anchor.gene_tss.unique.txt")
+hkgs = read.delim("../../data/annotation/human_hkg/hkg.txt",header=F)
+hkgs = tss[which(tss$V7 %in% hkgs$V1),]
+hkgs.agg = aggregate(V7~V1+V2+V3,hkgs, function(vec){length(which(vec!="."))})
+a2hkgs = merge(anchors,hkgs.agg, by=c("V1","V2","V3"),all.x=T)
+a2hkgs$V7[is.na(a2hkgs$V7)]=0
+a2hkg_sum = aggregate(V7~V4,a2hkgs, function(vec){ length(which(vec>0))/length(vec) })
+
+pdf("figures/multiloop_anchor/anchor_loop_vs_HKG.pdf",height=4,width=4)
+ggplot(a2hkg_sum, aes(V4,V7)) + geom_bar(stat="identity",fill=cbbPalette[6]) +
+    xlab("Anchor Degree") + ylab("Fraction of Anchor with HKG") +
+    theme_bw()
+dev.off()
+
 
 
 ## overlap with histone mark 
