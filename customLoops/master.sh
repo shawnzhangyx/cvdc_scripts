@@ -8,6 +8,9 @@ for file in $(ls loops_by_sample/D??_HiC_Rep?.loops); do
 popd
 Rscript merge_loops_across_stages.r
 
+## convert loops to WashU format
+awk -v OFS="\t" '{ if (NR>1){ print $1":"$2"-"$3,$4":"$5"-"$6,1 }}' combined_loops.uniq.gt1.juicer.txt > combined_loops.uniq.gt1.WashU.txt
+
 bash straw_extractInteractions.sh
 ## call dynamic loops
 call_dynamic_loops_edgeR.r
@@ -43,3 +46,6 @@ Rscript calcLoopCategory2.r
 ### 
 Rscript generate_background_loop_with_same_distance.r
 bash overlap_control_anchor_to_features.sh
+
+
+

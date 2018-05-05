@@ -9,3 +9,23 @@ popd
 
 convert_valid_pairs_to_matrix.sh
 straw_extractInteraction.sh
+
+
+## run on TSCC
+qsub process_interaction_to_insulation.qs
+## calculate insulation again
+for sample in $(cat ../../data/hic/meta/names.txt); do
+  (
+  for chr in {1..22} X; do
+    Rscript insulation_modified.r $chr $sample  
+  done
+  ) &
+done
+
+pushd ../../data/hic/insulation/
+for sample in $(cat ../meta/names.txt); do
+#  cat $sample/*_ins.500.bedGraph | sed 's/^/chr/g'  > ${sample}_ins.500.bedGraph
+  cat $sample/*.ins2.500.bedGraph | sed 's/^/chr/g'  > ${sample}.ins2.500.bedGraph
+
+  done
+

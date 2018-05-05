@@ -1,9 +1,10 @@
+setwd("../../analysis/hervh")
 files = list.files(path="rnaseq",pattern="rnaseq_D...out",full.names=T)
 
 dat = list()
 
 for (file in files){
-dat[[file]] = read.table(file)[,c(1,5)]
+dat[[file]] = read.table(file)[,c(1,8)]
 }
 
 dat2 = Reduce(function(...) merge(...,by = c("V1")),dat)
@@ -22,7 +23,7 @@ chr = sub("(.*):(.*)-(.*)","\\1",dat2$name)
 start = sub("(.*):(.*)-(.*)","\\2",dat2$name)
 end = sub("(.*):(.*)-(.*)","\\3",dat2$name)
 
-
+write.table(dat2,"herv.rnaseq.sorted.txt",row.names=F,col.names=F,quote=F,sep='\t')
 write.table(data.frame(chr,start,end),"hervh.sorted_rnaseq.bed",row.names=F,col.names=F,
   quote=F,sep='\t')
 
