@@ -1,5 +1,5 @@
-sample=D00_HiC_Rep1
-chr=22
+sample=D02_HiC_Rep2
+chr=1
 bin_size=10000
 bin_num=50
 
@@ -13,4 +13,9 @@ for sample in $(cat ../../data/hic/meta/names.txt); do
   ) &
   done
   wait
+
+for sample in $(cat ../../data/hic/meta/names.txt); do
+  echo $sample
+  cat ../../data/hic/DI/$sample/*.bedGraph |grep -v NA > ../../data/hic/DI/${sample}.10000.50.DI.bedGraph
+  done
 

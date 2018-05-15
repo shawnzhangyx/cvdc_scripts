@@ -4,7 +4,7 @@ lists = commandArgs(trailing=T)[1] # test
 sample = commandArgs(trailing=T)[2] # "D00_HiC_Rep1"
 outdir = commandArgs(trailing=T)[3] # "../../analysis/tads/oe_median/"
 library(doParallel)
-registerDoParallel(cores=16)
+registerDoParallel(cores=8)
 
 
 locations = read.table(lists,stringsAsFactors=F)

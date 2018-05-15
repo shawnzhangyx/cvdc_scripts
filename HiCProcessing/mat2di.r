@@ -13,6 +13,8 @@ output = args[5]
 
 ## read the matrix
 mat = read.table(gzfile(input))
+# convert NAs to 0s
+mat[is.na(mat)] = 0
 
 if (nrow(mat)<bin_num) {
     system(paste0("touch ",output))

@@ -6,7 +6,7 @@ a$dist = ceiling(a$dist)
 
 a$V4 = factor(a$V4,levels=c(b$name))
 
-ggplot(subset(a, V4 %in% head(b$name,50))) + geom_tile(aes(x=dist,y=V4,fill=V8))
+ggplot(subset(a, V4 %in% head(b$name,50) )) + geom_tile(aes(x=dist,y=V4,fill=V8))
 
 a2=read.delim("insulation/D05_HiC_Rep1.insulation.txt",header=F)
 a2$dist = a2$V6/1e4-(a2$V2+a2$V3)/2e4

@@ -15,8 +15,12 @@ dat2 = dat2[order(-dat2$D00),]
 dat2$name = factor(dat2$name, levels=dat2$name)
 melted = melt(dat2) 
 
+pdf("figures/HERV.exp.sorted.pdf")
 ggplot(melted, aes(x=variable,y=name,fill=log2(value))) + geom_tile() + 
-  scale_fill_gradient2(high='red',low='blue')
+  scale_fill_gradient2(high='red',low='blue') +
+  theme( axis.text.y=element_blank() )
+  dev.off()
+
 
 
 chr = sub("(.*):(.*)-(.*)","\\1",dat2$name)
