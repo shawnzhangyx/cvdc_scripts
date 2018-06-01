@@ -1,3 +1,4 @@
+setwd("../../analysis/hervh")
 a=read.delim("D00.rna_seq.ranked_by_rpkm.bed",header=F)
 b=read.delim("rnaseq/all_gene.rnaseq_D00.out",header=F)
 a$BW = b$V8[match(a$V4,b$V1)]
@@ -7,9 +8,9 @@ a$tier = ceiling(a$rank/50)
 
 exp = aggregate(BW~tier,a,median)
 
-pdf("figures/DI.overlap.tssFC2.exp.brackets.pdf",width=4,height=10)
-
-for (file in files[seq(1,12,2)]){
+#pdf("figures/DI.overlap.tssFC2.exp.brackets.pdf",width=4,height=10)
+svg("figures/DI.overlap.tssFC2.exp.brackets.svg")
+#for (file in files[seq(1,12,2)]){
 files = list.files(path="tss_DI_profile",pattern="DI",full.names=T)
 file = files[1]
 dat = read.delim(file,header=F)
@@ -29,7 +30,7 @@ print(
   scale_fill_manual(values=cbbPalette[c(6,7)]) +
   theme_bw()
 )
-}
+#}
 dev.off()
 write.table(exp,"tss.tier.vs.medianBW.txt",row.names=F,quote=F,sep='\t')
 

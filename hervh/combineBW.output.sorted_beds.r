@@ -32,12 +32,20 @@ write.table(data.frame(chr,start,end),"hervh.sorted_rnaseq.bed",row.names=F,col.
   quote=F,sep='\t')
 
 
-dat3 = dat2[which(dat2$D00>=1),]
-chr = sub("(.*):(.*)-(.*)","\\1",dat3$name)
-start = sub("(.*):(.*)-(.*)","\\2",dat3$name)
-end = sub("(.*):(.*)-(.*)","\\3",dat3$name)
-write.table(data.frame(chr,start,end),"hervh.bw_gt1.bed",row.names=F,col.names=F,
-  quote=F,sep='\t')
+
+#dat3 = dat2[which(dat2$D00>=1),]
+#chr = sub("(.*):(.*)-(.*)","\\1",dat3$name)
+#start = sub("(.*):(.*)-(.*)","\\2",dat3$name)
+#end = sub("(.*):(.*)-(.*)","\\3",dat3$name)
+#write.table(data.frame(chr,start,end),"hervh.bw_gt1.bed",row.names=F,col.names=F,
+#  quote=F,sep='\t')
+
+a=read.table("hervh.sorted_rnaseq.bed")
+a$name = paste0(a$V1,":",a$V2,"-",a$V3)
+b=read.table("hervh.merged.strand.bed")
+b= b[match(a$name,b$V4),]
+
+write.table(b,"hervh.sorted_rnaseq.strand.bed",row.names=F,col.names=F,quote=F,sep='\t')
 
 
 

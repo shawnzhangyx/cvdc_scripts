@@ -41,10 +41,6 @@ dyn2$V8[abs(dyn2$V8) > 100] = 100* sign(dyn2$V8)[abs(dyn2$V8) > 100]
 dyn2.agg = aggregate(V8~dist,dyn2,median)
 dyn2.agg$sample = files[idx]
 dyn.list[[files[idx]]] = dyn2.agg
-#non2 = non[which(abs(non$dist) <DIST),]
-#non2.median = aggregate(V8~V4,non2,median)
-#non2$V8 = non2$V8-non2.median$V8[match(non2$V4,non2.median$V4)]
-#non2$V8[abs(non2$V8) > 100] = 100* sign(non2$V8)[abs(non2$V8) > 100]
 
 print(
 ggplot(subset(dyn2,dist!=100)) +
@@ -63,12 +59,16 @@ dev.off()
 dyn.tab = do.call(rbind,dyn.list)
 
 pdf("figures/HERVH.dynamicTAD.ave_DI.D0-D80.pdf",width=4,height=4)
-ggplot(dyn.tab) + geom_bar(aes(x=dist,y=V8,fill=V8>0),stat="identity") + 
-#  geom_line(aes(x=dist,y=V8),color="black",size=1,alpha=0.5) + 
+ggplot(subset(dyn.tab,abs(dist)<8)) + geom_bar(aes(x=dist,y=V8,fill=V8>0),stat="identity") + 
+  ylim(-40,40) + 
   facet_grid(sample~.) + 
   scale_fill_manual(values=cbbPalette[c(6,7)]) + 
 #  scale_color_manual(values=cbbPalette[c(6,7)]) +
-  theme_bw()
+  theme(
+  panel.background = element_rect(fill = NA, colour = "black"),
+  panel.grid = element_blank()
+  )
+  
   dev.off()
 
 

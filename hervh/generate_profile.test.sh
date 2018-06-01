@@ -65,4 +65,35 @@ plotHeatmap -m chipseq_profiles/${factor}.mat.gz \
 done
 
 
+computeMatrix scale-regions -S \
+    ../../data/rad21/D0_Rad21.bw \
+    ../../data/rad21/D0_Med12.bw \
+    ../../data/rad21/D0_CTCF.bw \
+    -R hervh.dynamicBoundaries.for_deeptools.bed \
+    --regionBodyLength 10000 \
+    --beforeRegionStartLength 20000 \
+    --afterRegionStartLength 20000 \
+    --averageTypeBins median \
+    --skipZeros -o jian_data/RAD21.CTCF.mat.gz
+
+computeMatrix scale-regions -S \
+    ../../../H1/ENCODE/bigWig/POLR2A-human.rep1,2.bigWig \
+    -R hervh.dynamicBoundaries.for_deeptools.bed \
+    --regionBodyLength 10000 \
+    --beforeRegionStartLength 20000 \
+    --afterRegionStartLength 20000 \
+    --averageTypeBins median \
+    --skipZeros -o jian_data/POLR2A.mat.gz
+
+
+plotHeatmap -m jian_data/RAD21.CTCF.mat.gz \
+    --sortRegions no \
+    --colorList 'black, yellow' \
+    -out jian_data/RAD21.CTCF.heatmap.png
+
+
+plotHeatmap -m jian_data/POLR2A.mat.gz \
+    --sortRegions no \
+    --colorList 'black, yellow' \
+    -out jian_data/POLR2A.heatmap.png
 

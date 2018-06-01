@@ -10,9 +10,10 @@ ctcf_peaks$name = paste(ctcf_peaks$V1, ctcf_peaks$V2+25000)
 stages = read.table("../../data/tfChIPseq/merged_peaks/CTCF_merged_peaks.overlap_stage.edger.txt")
 ctcf_stages = merge(ctcf_peaks,stages,by.x="V7",by.y="V4")
 ctcf_stages = ctcf_stages[,c(10,1,14:19)]
-colnames(ctcf_stages) = c("name","peak","D00","D02","D05","D07","D15","D80")
-ctcf_anchor_stages = aggregate(cbind(D00,D02,D05,D07,D15,D80)~name,ctcf_stages,FUN=sum)
-ctcf_anchor_stages2 = data.frame(name=ctcf$name,ctcf_anchor_stages[match(ctcf$name,ctcf_anchor_stages$name),2:7])
+ctcf_stages$All = 1
+colnames(ctcf_stages) = c("name","peak","D00","D02","D05","D07","D15","D80","All")
+ctcf_anchor_stages = aggregate(cbind(D00,D02,D05,D07,D15,D80,All)~name,ctcf_stages,FUN=sum)
+ctcf_anchor_stages2 = data.frame(name=ctcf$name,ctcf_anchor_stages[match(ctcf$name,ctcf_anchor_stages$name),2:8])
 ctcf_anchor_stages2[is.na(ctcf_anchor_stages2)] = 0
 
 boundary_ctcf_list = list()
@@ -26,9 +27,9 @@ for ( name in c("stable","D00","D80","gain")) {
   tads$a1 = paste(tads$V1,tads$V2)
   tads$a2 = paste(tads$V1,tads$V3)
 
-  boundary_ctcf_list[[name]] =apply(ctcf_anchor_stages2[which(ctcf_anchor_stages2$name %in% c(tads$a1,tads$a2)),2:7]>0,2,table)
-  a1 = ctcf_anchor_stages2[match(tads$a1,ctcf_anchor_stages2$name),2:7] 
-  a2 = ctcf_anchor_stages2[match(tads$a2,ctcf_anchor_stages2$name),2:7]
+  boundary_ctcf_list[[name]] =apply(ctcf_anchor_stages2[which(ctcf_anchor_stages2$name %in% c(tads$a1,tads$a2)),2:8]>0,2,table)
+  a1 = ctcf_anchor_stages2[match(tads$a1,ctcf_anchor_stages2$name),2:8] 
+  a2 = ctcf_anchor_stages2[match(tads$a2,ctcf_anchor_stages2$name),2:8]
   boundary_ctcf_both_list[[name]] =apply(a1*a2>0, 2, table)
 
 }
@@ -41,7 +42,22 @@ melted2 = melt(mat2)
 
 #library(gridExtra)
 pdf("figures/TAD.boundary.CTCF.pdf",height=4,width=3.5)
-ggplot(melted1, aes(x=Var2, y=value,fill=Var1)) +
+ggplot(subset(melted2,Var1=="All"), aes(x=Var2, y=value)) +
+  geom_bar(stat="identity",position="dodge",color='gray20',size=0.1) +
+#  scale_fill_brewer(palette="RdBu",direction=-1)+ 
+  ylim(0,1) +
+  xlab("") + ylab("Fraction") + ggtitle("TAD boundary marked by CTCF") +
+  #theme_bw()  +
+  theme( 
+    legend.text = element_text(size=5),
+    axis.text.x = element_text(size=12,face="bold"),
+    panel.background = element_rect(fill = NA, colour = "black"),
+  panel.grid = element_blank()
+  )
+
+
+
+ggplot(subset(melted2,Var1!="All"), aes(x=Var2, y=value,fill=Var1)) +
   geom_bar(stat="identity",position="dodge",color='gray20',size=0.1) +
   scale_fill_brewer(palette="RdBu",direction=-1)+ ylim(0,1) +
   xlab("") + ylab("Fraction") + ggtitle("TAD boundary marked by CTCF") +

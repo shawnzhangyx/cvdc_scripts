@@ -21,12 +21,15 @@ dat$tier = ceiling(dat$rank/50)
 agg = aggregate(V8~tier+dist,dat[,c(12,10,8)],median)
 
 #pdf(paste0("figures/",sub("DI\\/(.*).DI.overlap.txt","\\1",file),".DI.herv_brackets.pdf"))
-print(ggplot(subset(agg, abs(dist)<10 & tier<10) ) +
+print(ggplot(subset(agg, abs(dist)<10 & tier<7) ) +
   geom_bar(aes(x=dist,y=V8,fill=V8>0),stat="identity") + 
-  ylim(-20,20) +
+  ylim(-40,40) +
   facet_grid(factor(tier)~.) +
   scale_fill_manual(values=cbbPalette[c(6,7)]) +
-  theme_bw())
+  theme(
+  panel.background = element_rect(fill = NA, colour = "black"),
+  panel.grid = element_blank()
+  ) )
 #dev.off()
 }
 dev.off()
