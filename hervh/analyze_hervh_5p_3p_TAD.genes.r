@@ -33,6 +33,12 @@ ggplot(comb) + geom_boxplot(aes(x=type,fill=variable,y=value)) +
   )
 dev.off()
 
+write.table(m1$Geneid,"hervh_regulated_gene_TADs/hervh_5associated_genes.txt",row.names=F,col.names=F,sep='\t',quote=F)
+write.table(m2$Geneid,"hervh_regulated_gene_TADs/hervh_3associated_genes.txt",row.names=F,col.names=F,sep='\t',quote=F)
+
+write.table(c(m1$Geneid,m2$Geneid),"hervh_regulated_gene_TADs/hervh_associated_genes.txt",row.names=F,col.names=F,sep='\t',quote=F)
+
+
 #ggplot(comb) + geom_line(aes(x=variable,y=log2(value),group=Geneid)) + 
 #  facet_grid(.~type)
 t.test(x=log(m1$D00_1+1),y=log(m1$D02_1+1),paired=T)

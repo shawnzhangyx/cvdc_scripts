@@ -13,14 +13,14 @@ ggplot(melted) + geom_tile(aes(x=variable,y=name,
   dev.off()
 
 deltas = as.numeric(unlist(a[,2:13]))
-#CUTOFF = quantile(deltas,0.9)
+#CUTOFF = quantile(deltas,0.85)
 CUTOFF = 50
 
 
 b=a
 b[,2:13] = b[,2:13]>CUTOFF
 #b$ES = rowSums(b[,2:3])==2 & rowSums(b[,4:13])<=2 
-b$ES = rowSums(b[,2:3])>=1 & apply(a[,4:13],1,median)/(a$D00_HiC_Rep1+a$D00_HiC_Rep2) < 1/4 
+b$ES = rowSums(b[,2:3])>=1 & apply(a[,4:7],1,median)/(a$D00_HiC_Rep1+a$D00_HiC_Rep2) < 1/4 
 
 melted = melt(b,id.vars="name")
 pdf("figures/herv.rnaseq_sorted.boundaries.pdf")
