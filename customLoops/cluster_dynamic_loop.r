@@ -72,3 +72,8 @@ all$cluster=0
 all$cluster[match(d$name,all$name)] = d$cluster
 write.table(all,"loops/loops.cpb.logFC.edger.final.cluster.txt",quote=F,sep='\t')
 
+all$chr = sub("(.*) (.*) (.*)","\\1",all$name)
+all$start = sub("(.*) (.*) (.*)","\\2",all$name)
+all$end = sub("(.*) (.*) (.*)","\\3",all$name)
+write.table(all[,c(25:27,24)],"loops/loops.cluster.bed",quote=F,sep='\t')
+

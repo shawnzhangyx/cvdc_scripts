@@ -13,6 +13,13 @@ write.table(d00[,1:3],"stage_specific_tads/D00.unique.tads",row.names=F,col.name
 write.table(d80[,1:3],"stage_specific_tads/D80.unique.tads",row.names=F,col.names=F,sep='\t',quote=F)
 write.table(gain[,1:3],"stage_specific_tads/gain.unique.tads",row.names=F,col.names=F,sep='\t',quote=F)
 
+a$type[which(a$D00==TRUE & rowSums(a[,4:9])==1)] = "ES+"
+a$type[which(a$D80==FALSE & rowSums(a[,4:9])==5)] = "CM-"
+a$type[which(a$D00==FALSE & a$D80==TRUE)] = "CM+"
+a$type[is.na(a$type)] = "other_dynamic"
+
+write.table(a[,c(1:3,24)],"dynamic_tads.with_types.txt",row.names=F,sep='\t',quote=F)
+
 #d00.pre = d00[,1:3]
 #d00.pre$dist = d00.pre$x2-d00.pre$x1
 #d00.pre$x2=d00.pre$x1

@@ -16,4 +16,5 @@ Rscript ../utility/plot_loop_triangular.r 3 38550000 38680000 ../../analysis/cus
 Rscript ../utility/plot_loop_triangular.r 1 162010000 162350000 ../../analysis/customLoops/figures/loop_examples
 #KCNH2
 Rscript ../utility/plot_loop_triangular.r 7 150650000  150670000 ../../analysis/customLoops/figures/loop_examples
-
+#WNT3 
+Rscript ../utility/plot_loop_triangular.r 17 44910000 45000000 ../../analysis/customLoops/figures/loop_examples

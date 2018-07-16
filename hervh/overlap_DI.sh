@@ -14,6 +14,13 @@ for sample in H1ESC H1MES H1MSC H1NPC H1TRO; do
   -wo > DI/${sample}.DI.overlap.txt
   done
 
+# overlap with iPSC samples. 
+for sample in KellyFraser.Data YinShen.Data; do 
+intersectBed \
+  -a <(awk -v OFS="\t" '{if ($2-400000 <0){print $1,0,$3+400000,$1":"$2"-"$3 } else {print $1,$2-400000,$3+400000,$1":"$2"-"$3 }}' hervh.sorted_rnaseq.bed) \
+  -b ../../data/iPSC/$sample/${sample}.norm.DI.bedgraph \
+  -wo > DI/${sample}.DI.overlap.txt
+done
 
 #overlap HERVH with compartments
 for sample in \

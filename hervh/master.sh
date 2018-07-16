@@ -49,4 +49,9 @@ Rscript analyze_hervh_5p_3p_TAD.genes.r
 mkdir ../../analysis/hervh/liftover2mm10
 awk -v OFS="\t" '{print $1,$2-20000,$3+20000}' hervh.dynamicBoundaries.for_deeptools.bed > liftover2mm10/hervh.dynamicBoundaries.ext20k.bed
 
+# plot DI
+overlap_DI.sh
+Rscript plotDI.profile.dyn.dixon.etal.r
+Rscript plotDI.profile.dyn.nondyn.tile.r
+Rscript plotDI.profile.iPSC.r
 

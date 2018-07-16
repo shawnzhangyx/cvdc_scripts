@@ -6,8 +6,8 @@ a1 =a1p
 a2=a2p
 
 ## move promoter to a1. 
-a2pi = which( ( a2$H3K4me3>0 | rowSums(a2[,28:33])>0 )
-              & ( a1$H3K4me3==0 & rowSums(a1[,28:33])==0)) 
+a2pi = which( ( a2$H3K4me3>0 ) #| rowSums(a2[,28:33])>0 )
+              & ( a1$H3K4me3==0 )) #& rowSums(a1[,28:33])==0)) 
 tmp = a2[a2pi,]
 a2[a2pi,] = a1[a2pi,]
 a1[a2pi,] = tmp
@@ -46,6 +46,13 @@ colnames(mat2) = paste0("A2.",colnames(mat2))
 comb = cbind(lp,mat1,mat2)
 rownames(comb) = nrow(comb):1
 
+type = rep("Other",nrow(comb))
+type[ rowSums(comb[,grepl("A1.H3K4me1",colnames(comb))])>0 & rowSums(comb[,grepl("A2.H3K4me1",colnames(comb))])>0 ] = "E-E"
+type[ rowSums(comb[,grepl("A1.H3K4me3",colnames(comb))])>0 & rowSums(comb[,grepl("A2.H3K4me1",colnames(comb))])>0 ] = "P-E"
+type[ rowSums(comb[,grepl("A1.H3K4me3",colnames(comb))])>0 & rowSums(comb[,grepl("A2.H3K4me3",colnames(comb))])>0 ] = "P-P"
+type.df = data.frame(type)
+#ggplot(type.df) + geom_point(aes(x=1:nrow(type.df),type))
+
 melted = melt(as.matrix(comb))
 
 pdf(paste0("figures/cluster1-5.heatmap.pdf"),height=7,width=12)
@@ -60,8 +67,18 @@ label=c("HiC",rep(c("H3K4me3","H3K27me3","H3K27ac","H3K4me1","RNAseq","CTCF"),2)
   xlab("Marks") + ylab("Loops")+
   theme_minimal() + 
   theme( 
+    panel.background = element_rect(fill = NA, colour = "black"),
+    panel.grid = element_blank(),
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
     legend.justification="top")
+
+ggplot(type.df) + geom_tile(aes(x=1,y=nrow(type.df):1,fill=type)) + 
+  scale_fill_manual(values =cbbPalette[c(4,9,5,6)]) + 
+    theme(
+      panel.background = element_rect(fill = NA, colour = "black"),
+      panel.grid = element_blank(),
+    )
+
 dev.off()
 

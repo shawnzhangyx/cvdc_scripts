@@ -1,4 +1,4 @@
-pushd ../../analysis/gWAS/
+pushd ../../data/gWAS/
 intersectBed -a ../../data/atac/peaks/atac_merged_peaks.bed -b ../../data/gWAS/heartGWAS.LD_SNP.bed -wo > gWAS.overlap_atac.txt
 intersectBed -a ../../data/atac/peaks/atac_distal_peaks.bed -b ../../data/gWAS/heartGWAS.LD_SNP.bed -wo > gWAS.overlap_atac_distal.txt
 sort -k4,4 -u gWAS.overlap_atac_distal.txt > gWAS.overlap_atac_distal.uniq.txt

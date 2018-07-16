@@ -1,5 +1,5 @@
 setwd("../../analysis/gWAS_customLoop/")
-a=read.delim("anchors.overlap_ATAC_GWAS.bed",header=F)
+a=read.delim("anchors.overlap_ATAC_GWAS.bed",header=F,stringsAsFactors=F)
 a$name	=	paste(a$V1,a$V2)
 au	=	data.frame(name=unique(a$name))
 loop	=	read.delim("../customLoops/combined_loops.uniq.gt1.txt")
@@ -33,6 +33,17 @@ out = cbind(a[match(au.both$A1,a$name),-c(14:16)],au.both)
 #out$right[is.na(out$right)]=""
 out$A2 = sub("chr.* (.*)","\\1",out$A2)
 out$A2[is.na(out$A2)]=""
+
+colnames(out)=c("Anchor.chr","Anchor.start","anchor.end","ATAC.chr","ATAC.start","ATAC.end","ATAC.name","SNP.chr","SNP.start","SNP.end","LD.SNP","Lead.SNP","Traits","Anchor1","Anchor2","gene")
+
+
+anno = fread("../../data/gWAS/GWAS_Catolog_all_09282017.red.tsv",header=F)
+for (i in 1:nrow(out)){
+  traits = sort(unique(anno$V2[which(anno$V1 == out[i,"Lead.SNP"])]))
+  out$Traits[i] = paste(traits,collapse="; ")
+  out$NoTraits[i] = length(traits)
+}
+
 
 write.table(out,	"anchors.overlap_genes.all.txt",row.names=F,sep='\t',quote=F)
 
