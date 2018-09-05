@@ -6,6 +6,28 @@ b=read.delim("hervh.nonDynamicBoundaries.txt",header=F)
 files = list.files(path="DI",pattern="DI",full.names=T)
 
 #for (file in files[seq(1,12,2)]){
+t50 = read.delim("hervh.sorted_rnaseq.bed",header=F)[1:50,]
+t50$name = paste0(t50$V1,":",t50$V2,"-",t50$V3)
+idx = 1
+dat = read.delim(files[idx],header=F)
+dat$dist = ceiling((dat$V6-dat$V2)/10000)-40
+dat2 = dat[which(dat$V4 %in% t50$name ),]
+#dat2 = dat[which(dat$V4 %in% t50$name & !( dat$V4 %in% a$V1) ),]
+DIST=8
+
+dat2 = dat2[which(abs(dat2$dist)< DIST),]
+dat2.median = aggregate(V8~V4,dat2,median)
+dat2$V8 = dat2$V8-dat2.median$V8[match(dat2$V4,dat2.median$V4)]
+dat2$V8[abs(dat2$V8) > 100] = 100* sign(dat2$V8)[abs(dat2$V8) > 100]
+
+pdf("figures/HERVH.top50TAD.DI.tile.pdf",width=4,height=2)
+ggplot(subset(dat2,dist!=100)) +
+    geom_tile(aes(x=dist,y=V4,fill=V8)) +
+    scale_fill_gradient2(low=cbbPalette[6],high=cbbPalette[7]) +
+    theme_bw() +ggtitle(files[idx])
+dev.off()
+
+
 
 dyn.list = list()
 pdf("figures/HERVH.dynamicTAD.DI.tile.pdf",width=4,height=2)

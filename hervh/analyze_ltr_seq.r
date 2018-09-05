@@ -17,6 +17,10 @@ b$tier = ceiling(b$rank/50)
 a$name = paste0(d$name[match(a$V4,d$V4)],".5P")
 b$name = paste0(d$name[match(b$V4,d$V4)],".3P")
 
+out5p = a[grepl("5P",a$name),c(7,8,9,14)]
+out5p = out5p[!duplicated(out5p$name),]
+write.table(out5p,"multi_seq_aln/5P_LTRs.Human.name.bed",row.names=F,col.names=F,sep='\t',quote=F)
+
 
 g1 = ggplot(a) + geom_bar(aes(factor(tier),fill= V10),stat="count") +
   ggtitle("5'LTR") + theme_bw()
@@ -35,16 +39,42 @@ dup2 = comb[duplicated(comb[,c(4,10)],fromLast=T),]
 dup = rbind(dup2,dup1)
 
 g3 = ggplot(dup) + geom_bar(aes(factor(tier),fill= V10),stat="count")+ 
-  ggtitle("Paired") + theme_bw()
+  ggtitle("Paired") + scale_fill_manual(values=cbbPalette[c(1,3,4,5,6)]) +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    panel.background = element_rect(fill = NA, colour = "black"),
+    panel.grid = element_blank()
+    )
+
 
 g4 = ggplot(subset(dup,rank<500)) + geom_point(aes(x=rank,y=V9-V8,color=V10)) +
   ggtitle("LTR length") + theme_bw()
 g5 = ggplot(subset(dup1,rank<500)) + geom_point(aes(x=rank,y=V3-V2)) + 
   ggtitle("HERVH-int length") + theme_bw()
+  
+g6 = ggplot(dup) + geom_violin(aes(x=factor(tier), y=V9-V8),fill='black',color='black',size=0.1) +
+  ylim(350,500) +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    panel.background = element_rect(fill = NA, colour = "black"),
+    panel.grid = element_blank()
+    )
 
-pdf("figures/LTR_pair_types.pdf")
-grid.arrange(g1,g2,g3)
+#ggplot(subset(dup,rank<=300)) + geom_density(aes(x=V9-V8),fill="black") + 
+#  facet_grid(.~tier) + coord_flip() + xlim(350,500) + 
+#  theme( 
+#  axis.text.x = element_text(angle = 90, hjust = 1),
+#  panel.background = element_rect(fill = NA, colour = "black"),
+#  panel.grid = element_blank() 
+#  )
+
+
+
+pdf("figures/LTR_pair_types.pdf",height=3,width=4)
+grid.arrange(g1,g2)
+g3
 grid.arrange(g4,g5)
+g6
 dev.off()
 
 table(dup$tier,dup$V9-dup$V8>420 & dup$V10=="LTR7")

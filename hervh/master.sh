@@ -55,3 +55,10 @@ Rscript plotDI.profile.dyn.dixon.etal.r
 Rscript plotDI.profile.dyn.nondyn.tile.r
 Rscript plotDI.profile.iPSC.r
 
+
+## HERVH evolution analysis. 
+Rscript analyze_ltr_seq.r
+# liftover to chimp. 
+~/software/ucsc/liftOver hervh.sorted_rnaseq.name.bed ~/software/ucsc/hg19ToPanTro5.over.chain.gz multi_seq_aln/HERVH-int.liftover.PanTro5.txt multi_seq_aln/HERVH-int.liftover.PanTro5.txt.unmapped -minMatch=0.1
+~/software/ucsc/liftOver multi_seq_aln/5P_LTRs.Human.name.bed ~/software/ucsc/hg19ToPanTro5.over.chain.gz multi_seq_aln/5P_LTRs.liftover.PanTro5.bed multi_seq_aln/5P_LTRs.liftover.PanTro5.bed.unmapped -minMatch=0.1
+
