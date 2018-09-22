@@ -40,6 +40,14 @@ colnames(mat1) = colnames(mat2) = c("stable","ES+","CM-","CM+")
 melted1 = melt(mat1)
 melted2 = melt(mat2)
 
+
+fisher.test(rbind(boundary_ctcf_both_list$stable[,7],boundary_ctcf_both_list$D00[,7]))
+# 2.3e-10
+fisher.test(rbind(boundary_ctcf_both_list$stable[,7],boundary_ctcf_both_list$D80[,7]))
+# 0.13
+fisher.test(rbind(boundary_ctcf_both_list$stable[,7],boundary_ctcf_both_list$gain[,7]))
+# 0.37
+
 #library(gridExtra)
 pdf("figures/TAD.boundary.CTCF.pdf",height=4,width=3.5)
 ggplot(subset(melted2,Var1=="All"), aes(x=Var2, y=value)) +

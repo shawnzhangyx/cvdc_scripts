@@ -38,7 +38,8 @@ plot(as.dendrogram(hc),horiz=T, leaflab = "none")
 plot(hc2)
 
 ggplot(melted) + geom_tile(aes(x=Var2,y=Var1,fill=value)) +
-  scale_fill_gradient2(low=cbbPalette[6],high=cbbPalette[7]) +
+#  scale_fill_gradientn(colors=c("#2c7fb8","white","#de2d26"),name='corner\nscore') +
+  scale_fill_gradient2(low="#2c7fb8",high="#de2d26") +
   theme_void() +
   theme( legend.position="bottom")
   dev.off()

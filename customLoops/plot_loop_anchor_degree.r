@@ -2,7 +2,7 @@ setwd("../../analysis/customLoops")
 
 anchors = read.table("anchors/anchors.uniq.30k.num_loops.red.txt")
 
-#anchors$V4[which(anchors$V4>=5)] = "5+"
+anchors$V4[which(anchors$V4>=5)] = "5+"
 com = table(anchors$V4)
 
 dat = data.frame(com)

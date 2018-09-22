@@ -1,6 +1,7 @@
 setwd("../../analysis/hervh/oe_profile")
 out.list = list()
-for (file in c("D00_HiC_Rep1.csv","D02_HiC_Rep1.csv","D05_HiC_Rep1.csv","mES_rep1.csv")){
+for (file in c("D00_HiC_Rep1.csv","D02_HiC_Rep1.csv","D05_HiC_Rep1.csv",
+  "D00.rank101_150.csv","D00.rank051_100.csv","mES_rep1.csv")){
 a = read.csv(file)
 a$sample=file
 out.list[[file]] = a
@@ -17,7 +18,7 @@ out$y = ceiling((out$V2-out$center)/1e4)
 
 agg = aggregate(cbind(V3.x,norm)~x+y+sample,out,median,na.rm=T)
 
-pdf("../figures/oe_profile.D0-D5.HERVH.pdf",height=9,width=5)
+pdf("../figures/oe_profile.rank1-150.D0-D5.HERVH.pdf",height=14,width=5)
 
 ggplot(agg) + geom_tile(aes(x=x,y=y,fill=log2(V3.x))) +
   scale_fill_gradientn(colors=c("#000099","#FFFFFF","#CC0033"),values=c(0,0.6,1)) +

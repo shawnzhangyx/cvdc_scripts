@@ -6,6 +6,11 @@ bash merge_hervh_seq.sh
 ## quantify the RNA-seq signal on the HERVH sequences. 
 bash HERVH.all_gene.bigWigOverBed.sh 
 Rscript combineBW.output.sorted_beds.r
+## quantify the RNA-seq signal based on the featureCounts not the bigWig. 
+awk -v OFS="\t" '{print $4,$1,$2,$3,$6}' hervh.merged.strand.bed > hervh.merged.strand.saf
+bams=../../data/rnaseq/rerun/bam/RZY6*.bam
+featureCounts -a hervh.merged.strand.saf -o rnaseq/hervh.merged.rnaseq.counts $bams -F SAF -T 8
+
 
 ## find the motif 
 bash find_motifs_hervh.sh
@@ -32,6 +37,7 @@ bash HERVH.chipseq.bigWigOverBed.sh
 Rscript calculate_chipseq_enrichment.r
 bash generate_profile_brackets.sh
 bash generate_profile.sh
+bash generate_profile_brackets.final.sh
 
 ## HERVH regulated genes. 
 intersectBed -a <(awk -v OFS="\t" '{print $1,$2-50000,$3+50000,$4,$5}' hervh.dynamicBoundaries.for_deeptools.bed)  -b ../../analysis/di_tads/tad_di/D00_Rep1.TAD.bed -wo > hervh_regulated_gene_TADs/hervh.dyn.overlap.TADs.txt
