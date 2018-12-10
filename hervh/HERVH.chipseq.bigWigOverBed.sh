@@ -5,6 +5,12 @@ for factor in $(cat /mnt/silencer2/home/shz254/projects/H1/ENCODE/bigWig/factors
   ~/software/ucsc/bigWigAverageOverBed /mnt/silencer2/home/shz254/projects/H1/ENCODE/bigWig/${factor}-human.rep1,2.bigWig hervh.ext20k.bed chipseq_bwOverBed/ENCODE.$factor.out
   done
 
+# CTCF data from two encode sources. 
+~/software/ucsc/bigWigAverageOverBed /mnt/silencer2/home/shz254/datasets/H1/ENCODE/bigWig/CTCF-human.HAIB.bigWig hervh.ext20k.bed chipseq_bwOverBed/ENCODE.CTCF-HAIB.out
+~/software/ucsc/bigWigAverageOverBed /mnt/silencer2/home/shz254/datasets/H1/ENCODE/bigWig/CTCF-human.broad.bigWig hervh.ext20k.bed chipseq_bwOverBed/ENCODE.CTCF-broad.out
+
+
+
 ~/software/ucsc/bigWigAverageOverBed ../../data/rad21/D0_Rad21.bw hervh.ext20k.bed chipseq_bwOverBed/Jian.RAD21.out
 ~/software/ucsc/bigWigAverageOverBed ../../data/rad21/D0_CTCF.bw hervh.ext20k.bed chipseq_bwOverBed/Jian.CTCF.out
 ~/software/ucsc/bigWigAverageOverBed ../../data/tfChIPseq/bigWig/CTCF_D00_merged.rpkm.bw hervh.ext20k.bed chipseq_bwOverBed/Zhang.CTCF.out

@@ -111,13 +111,17 @@ ggplot(melted) + geom_tile(aes(x=Var2,y=Var1,fill=value))
 dev.off()
 
 
+dyn.out$type ="other_dynamic"
+dyn.out$type[which(dyn.out$D00 & dyn.out$num_gtCT<2)] = "ESC(+)"
+dyn.out$type[which(!dyn.out$D80 & dyn.out$num_gtCT>4)] = "vCM(-)"
+
 
 d00 = dyn.out[which(dyn.out$D00 & dyn.out$num_gtCT<2),]
 d80 = dyn.out[which(!dyn.out$D80 & dyn.out$num_gtCT>4),]
 stable = rbind( a[which(a$num_gtCT %in% 1:5 & !(paste0(a$chr1,":",a$x1) %in% dyn.name)),],
     a[which(a$num_gtCT==6),])
 
-
+write.table(dyn.out[,c(2:3,24)],"dynamic_bd/dynamic.txt",row.names=F,col.names=F,quote=F,sep="\t")
 write.table(d00[,2:3],"dynamic_bd/d00.txt",row.names=F,col.names=F,quote=F,sep="\t")
 write.table(d80[,2:3],"dynamic_bd/d80.txt",row.names=F,col.names=F,quote=F,sep="\t")
 write.table(stable[,2:3],"dynamic_bd/stable.txt",row.names=F,col.names=F,quote=F,sep="\t")

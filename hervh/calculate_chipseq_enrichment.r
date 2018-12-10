@@ -18,9 +18,12 @@ dat = dat[order(-dat$fc.list),]
 dat$names = factor(dat$names,levels=dat$names)
 
 library(ggrepel)
-pdf("figures/HERVH.chip.enrichment.high.vs.low.pdf",height=4,width=10)
+pdf("figures/HERVH.chip.enrichment.high.vs.low.pdf",height=6,width=10)
 ggplot(dat) + 
   geom_bar(aes(x=names,y=fc.list),stat='identity',fill='gray') +
+#  geom_label_repel(data=subset(dat,names %in% c("POLR2AphosphoS5","POLR2A","H3K4me2",
+#    "H3K4me3","H3K27ac","JUND","CHD7","SP1","NANOG","RIC.SMC3",
+#      "RIC.SMC1")),aes(x=names,y=fc.list,label=names)) +
   geom_hline(yintercept=1,linetype="dashed",color='red') + 
   ylab("ChIPseq.Fold.Enrichment") + xlab("") + 
   theme(
