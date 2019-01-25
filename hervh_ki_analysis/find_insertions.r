@@ -1,5 +1,5 @@
 options(scipen=99)
-BIN_SIZE = BIN_SIZE
+BIN_SIZE = 10000
 setwd("../../analysis/hervh_ki/")
 
 name = "herv_ki1"
@@ -23,12 +23,13 @@ agg$name = paste0(agg$chr,":",agg$bin)
 
 out = agg[,c(1,2,2,3)]
 out[,3] = out[,3]+BIN_SIZE
+out = out[order(out$chr,out$bin),]
 write.table(out,paste0(name,".pileup.bedGraph"),row.names=F,col.names=F,sep="\t",quote=F)
 
 
 pdf(paste0(name,".pdf"),height=10,width=5)
 print( ggplot(comb) +geom_bar(aes(x=bin)) + scale_y_log10() + 
-  geom_vline(data=agg[1:20,], aes(xintercept=bin),color='red') + 
+#  geom_vline(data=agg[1:20,], aes(xintercept=bin),color='red') + 
   facet_grid(chr~.) )
 dev.off()
 }
