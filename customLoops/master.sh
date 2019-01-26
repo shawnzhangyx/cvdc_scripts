@@ -1,5 +1,10 @@
 pushd ../../analysis/customLoops/
 mkdir -p edgeR loops anchors figures figures/cluster_with_names/ clusters/ overlap_loopdomain_to_features/ APA_plots/ loop_control_distance_matched/
+
+## call loops for each sample. 
+qsub run_test.qs
+bash post_process_loops.sh
+bash combine_loops_per_sample.sh
 ## merge loops across stages. 
 awk -v OFS="\t" '{if(NR==1)print $0,"sample"}'  loops_by_sample/D00_HiC_Rep1.loops > combined_loops.raw.sorted.txt
 for file in $(ls loops_by_sample/D??_HiC_Rep?.loops); do
