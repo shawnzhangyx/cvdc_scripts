@@ -45,4 +45,15 @@ for sample in $(cat ../../data/hic/meta/names.txt); do
   -wo > tss_DI_profile/${sample}.DI.overlap.txt
   done
 
-#    -a <(awk -v OFS="\t" '{if ($2-400000 <0){print $1,0,$3+400000,$1":"$2"-"$3":"$4":"$5 } else {print $1,$2-400000,$3+400000,$1":"$2"-"$3":"$4":"$5 }}' ../../data/rnaseq/D00.rna_seq.ranked_by_rpkm.bed) \
+## overlap TSS and TES with DIs
+sample=D00_HiC_Rep1
+  intersectBed \
+    -a <(awk -v OFS="\t" '{if ($2-400000 <0){print $1,0,$3+400000,$4 } else {print $1,$2-400000,$3+400000,$4}}' all_genes.TSSs.dist.CTCF_peaks.txt) \
+    -b ../../data/hic/DI/${sample}.10000.50.DI.bedGraph \
+  -wo > tss_DI_profile/all_gene.TSS.DI.overlap.$sample.txt
+
+  intersectBed \
+    -a <(awk -v OFS="\t" '{if ($2-400000 <0){print $1,0,$3+400000,$4 } else {print $1,$2-400000,$3+400000,$4}}' all_genes.TESs.dist.CTCF_peaks.txt) \
+    -b ../../data/hic/DI/${sample}.10000.50.DI.bedGraph \
+  -wo > tss_DI_profile/all_gene.TES.DI.overlap.$sample.txt
+

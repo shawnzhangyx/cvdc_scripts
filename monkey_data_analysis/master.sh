@@ -8,7 +8,7 @@ grep HERVH-int ~/annotations/marmoset/repeatmasker/rmsk.txt |cut -f 6-8 |sort -k
 awk -v OFS="\t" '{print $4,$1,$2,$3,$6}' panTro6.hervh.merged.bed > panTro6.hervh.merge.saf
 awk -v OFS="\t" '{print $4,$1,$2,$3,$6}' calJac3.hervh.merged.bed > calJac3.hervh.merge.saf
 
-
+#count HERVH
 mkdir rnaseq
 chimp=../../data/rnaseq_pipe/panTro6/bam/*.bam
 featureCounts -a panTro6.hervh.merge.saf -o rnaseq/panTro6.hervh.rnaseq.counts $chimp -F SAF -T 8
@@ -16,4 +16,5 @@ featureCounts -a panTro6.hervh.merge.saf -o rnaseq/panTro6.hervh.rnaseq.counts $
 marmoset=../../data/rnaseq_pipe/calJac3/bam/*.bam
 featureCounts -a calJac3.hervh.merge.saf -o rnaseq/calJac3.hervh.rnaseq.counts $marmoset -F SAF -T 8
 
+#calculate percent of HERVH reads among all transcripts
 

@@ -1,15 +1,20 @@
-setwd("../../analysis/di_tads.10k.2M/dynamic_bd")
+setwd("../../analysis/di_tads.10k.2M.d0-5/dynamic_bd")
 
 a=read.table("D00.boundary.repeats_counts.txt")
-## Name D00 D80 all
+## Name D00 D02 all
+
+D00 = length(readLines("d00.txt"))
+D02 = length(readLines("d02.txt"))
+STB = length(readLines("stable.txt"))
+
 
 #a$V4=a$V4/10
-a$P1 = a$V2/198
-a$P2 = a$V4/2622
-a$FC = a$V2/198/a$V4*2622
+a$P1 = a$V2/D00
+a$P2 = a$V4/STB
+a$FC = a$V2/D00/a$V4*STB
 a$pval = 1
 for (i in 1:nrow(a)){
-test = matrix(c(a[i,2],198-a[i,2],a[i,4],2622-a[i,4]),ncol=2,byrow=T)
+test = matrix(c(a[i,2],D00-a[i,2],a[i,4],STB-a[i,4]),ncol=2,byrow=T)
 
 a$pval[i] = prop.test(test,alternative="g")$p.value
 }
@@ -19,13 +24,13 @@ write.table(subset(a, FC>2 & pval<0.01),"D00.enriched_repeats.txt",row.names=F,c
 
 
 b = read.table("D00.boundary.repeats_counts.txt")
-b$P1 = b$V3/329
-b$P2 = b$V4/2622
-b$FC = b$V3/329/b$V4*2622
+b$P1 = b$V3/D02
+b$P2 = b$V4/STB
+b$FC = b$V3/D02/b$V4*STB
 b$pval = 1
 for (i in 1:nrow(b)){
 #test = matrix(c(b[i,2],354-b[i,2],b[i,5],2622-b[i,5]),ncol=2,byrow=T)
-test = matrix(c(b[i,3],329-b[i,3],b[i,4],2622-b[i,4]),ncol=2,byrow=T)
+test = matrix(c(b[i,3],D02-b[i,3],b[i,4],STB-b[i,4]),ncol=2,byrow=T)
 b$pval[i] = prop.test(test,alternative="g")$p.value
 }
 b$fdr = p.adjust(b$pval,method="BH")
