@@ -21,6 +21,11 @@ hervh$rank = 1:nrow(hervh)
 qtl = quantile(rpkm3$Exp,c(0.99,0.95,0.90,0.75))
 names(qtl) = c("1%","5%","10%","25%")
 
+lift.chimp = read.table("../hervh/evolution_analysis/chimp/HERVH-int.liftover.Pantro6.txt")
+#table(paste0(lift.chimp$V1,":",lift.chimp$V2,"-",lift.chimp$V3) %in% hervh$Geneid)
+
+
+
 pdf("panTro6.rnaseq.sorted_by_rpkm.pdf",height=4,width=3)
 
 ggplot(subset(hervh,rank<200)) + 

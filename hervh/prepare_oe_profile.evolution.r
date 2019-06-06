@@ -1,14 +1,15 @@
 setwd("../../analysis/hervh")
 
-lists.list = c("evolution_analysis/chimp/HERVH-int.liftover.Pantro6.txt","evolution_analysis/marmoset/HERVH-int.liftover.CalJac3.txt","evolution_analysis/mouse/HERVH-int.liftover.Mm10.txt")
-sample.list = c("../../data/monkey_data/chimp/chimp/observed_expected/","../../data/monkey_data/marmoset/marmoset/observed_expected/","../../../../datasets/Bonev_et_cell_2017/rep1/observed_expected/")
-name.list = c("chimp","marmoset","mouse")
+lists.list = c("evolution_analysis/chimp/HERVH-int.liftover.Pantro6.txt","evolution_analysis/chimp/HERVH-int.liftover.Pantro6.txt","evolution_analysis/bonobo/HERVH-int.liftover.PanPan2.txt","evolution_analysis/marmoset/HERVH-int.liftover.CalJac3.txt","evolution_analysis/mouse/HERVH-int.liftover.Mm10.txt")
+sample.list = c("../../data/monkey_data/chimp/chimp.cm/observed_expected/","../../data/monkey_data/chimp/chimp.mt/observed_expected/","../../data/monkey_data/bonobo/bonobo/observed_expected/","../../data/monkey_data/marmoset/marmoset/observed_expected/","../../../../datasets/Bonev_et_cell_2017/rep1/observed_expected/")
+name.list = c("chimp","chimp.mt","bonobo","marmoset","mouse")
 
 for (idx in 1:3){
 #lists="evolution_analysis/chimp/HERVH-int.liftover.Pantro6.txt"
 lists = lists.list[idx]
 locations = read.table(lists,stringsAsFactors=F)
 locations = locations[which(locations$V4 %in% paste0("HERVH",1:50)),]
+name = name.list[idx]
 #chr = sub("(chr.*):(.*)-(.*)","\\1",loc)
 #start = as.numeric(sub("(chr.*):(.*)-(.*)","\\2",loc))
 #end = as.numeric(sub("(chr.*):(.*)-(.*)","\\3",loc))
@@ -26,6 +27,11 @@ print(chr)
 dat[[chr]] = fread(paste0(sample,sub("chr","",chr),"_10000.txt"))
 }
 
+dat.all = do.call(rbind, dat)
+dat.all$dist = dat.all$V2-dat.all$V1
+dat.subset = subset(dat.all,dist<500000)
+oe.median = aggregate(V3~dist,dat.subset,median,na.rm=T)
+write.csv(oe.median,paste0("evolution_analysis/",name,"/",name,"_median.csv"),row.names=F)
 
 library(doParallel)
 registerDoParallel(cores=8)
@@ -47,7 +53,6 @@ out_list[[length(out_list)+1]] = tmp
 }
 
 out = do.call(rbind,out_list)
-name = name.list[idx]
 write.csv(out,paste0("evolution_analysis/",name,"/",name,"_oe.csv"),row.names=F)
 }
 
