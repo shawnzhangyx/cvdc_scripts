@@ -36,6 +36,8 @@ combined_log2$dist_log2 = floor(log2(combined_log2$distance+1))
 combined_log2 = aggregate(prob~dist_log2+sample,combined_log2,sum)
 combined_log2= combined_log2[which(combined_log2$dist_log2>0),]
 combined_log2$name = substr(combined_log2$sample,1,3)
+combined_log2$rep = substr(combined_log2$sample,9,12)
+
 
 ave = aggregate(prob~dist_log2+name,combined_log2,mean)
 se = aggregate(prob~dist_log2+name,combined_log2,sd)
@@ -47,9 +49,10 @@ labels = ifelse (2**breaks > 1e6, paste0(round(2**breaks/1e6,1),"M"),
            ifelse(2**breaks> 1e3, paste0(round(2**breaks/1e3,1),"K")))
 
 pdf("distance_prob_log2.pdf",height=4,width=6)
-ggplot(out, aes(dist_log2,color=name,y=mean)) + geom_line(size=1.2) +geom_point() + 
+#ggplot(out, aes(dist_log2,color=name,y=mean)) + geom_line(size=1.2) +geom_point() + 
+ggplot(combined_log2, aes(dist_log2,color=name,y=prob,group=sample,shape=rep)) + geom_line(size=1.2) +geom_point(size=2) +
   scale_color_brewer(palette="RdBu",direction=-1) +
-  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2)+
+#  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2)+
   ylab("Fraction") +
   scale_x_continuous("distance(log2)", breaks=breaks,
   labels=labels ) +

@@ -4,6 +4,9 @@ system("wc -l *.10000_blocks > tad.num.txt")
 a=read.table("tad.num.txt")
 a=a[1:12,]
 a$names= substr(a$V2,1,3)
+a$rep = substr(a$V2,5,8)
+
+
 agg1 = aggregate(V1~names,a,mean)
 agg2 = aggregate(V1~names,a,min)
 agg3 = aggregate(V1~names,a,max)
@@ -13,10 +16,10 @@ colnames(agg) = c("Stage","mean","min","max")
 
 
 pdf("arrowhead_TAD_number.pdf",width=3,height=3)
-ggplot(agg, aes(x=Stage)) +
-    geom_line(aes(group=1,y=mean,color='TAD Number')) +
-    geom_errorbar(aes(ymin=min, ymax=max,color='TAD Number'), width=.3) +
-    geom_point(aes(y=mean, color='TAD Number')) +
+ggplot(a, aes(x=names,y=V1,group=rep)) +
+    geom_line(color=cbbPalette[7]) +
+#    geom_errorbar(aes(ymin=min, ymax=max,color='TAD Number'), width=.3) +
+    geom_point(aes(shape=rep),color=cbbPalette[7]) +
     theme_bw() +
     theme(legend.position="top",axis.text.x = element_text(angle=90,size=12,face="bold",vjust=0.5))
 dev.off()
