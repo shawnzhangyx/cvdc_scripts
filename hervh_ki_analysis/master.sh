@@ -1,3 +1,6 @@
+
+
+
 # extract HERVH2 KI bam files. 
 ./find_valid_pairs.awk Bam_file chr13 56151346 56159088 hervh_ki1 
 
