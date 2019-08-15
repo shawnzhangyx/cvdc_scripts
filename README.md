@@ -8,7 +8,7 @@ The HERV-H part of this story is now published in [*Nature Genetics*](https://ww
 
 ## Overall structure. 
 
-I apologize for the lack of documentation at a lot of places in the scripts. More than half of the scripts were explorative analysis and did not lead to any fruitful ends for us. But feel free to use them for your own analysis if you find them helpful. Feel free to [e-mail me](mailto:shz254@ucsd.edu) if you have any questions about any part of the scripts. 
+I apologize for the lack of documentation at a lot of places in the scripts. More than half of the scripts were explorative analysis and did not lead to any fruitful ends for us. But feel free to use them for your own analysis if you find them helpful. You're more than welcome to post an [issue](https://github.com/shawnzhangyx/cvdc_scripts/issues) or [e-mail me](mailto:shz254@ucsd.edu) if you have any questions about any part of the scripts. 
 
 The project directory was designed in the following way. The files in the `scripts/` directory are exactly the files in this Github repo. 
 ```
