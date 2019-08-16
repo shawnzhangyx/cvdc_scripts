@@ -44,7 +44,7 @@ The read alignment and basic processing were performed by our in-house pipelines
 * **atacProcessing**: process ATAC-seq data.
 * **chipProcessing**: Process ChIP-seq data. 
 * compareVISTA: compare the loops to VISTA database. 
-* **customLoops: chromatin loop identification and analysis. **
+* **customLoops: chromatin loop identification and analysis.**
 * **di_tads.10k.2M**: TAD analysis using Directionality index at 10kb resolution and 2Mb distance cutoff. 
 * **di_tads**: TAD analysis using Directionality index at 50kb resolution and 2Mb distance cutoff. 
 * figures: plot the distance-based contact distribution and virtual 4C. 
