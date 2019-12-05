@@ -61,6 +61,8 @@ The read alignment and basic processing were performed by our in-house pipelines
 * tfChIPseqProcessing: process TF ChIP-seq data (including CTCF). 
 * utility: some general purpose functions. 
 
+## Data: 
+Raw and processed Hi-C data are also avaiable on [4DN data portal]( https://data.4dnucleome.org/browse/?experiments_in_set.biosample.biosource.individual.organism.name=human&experiments_in_set.experiment_type.display_title=in+situ+Hi-C&experimentset_type=replicate&lab.display_title=Bing+Ren%2C+UCSD&type=ExperimentSetReplicate)
 
 
 
